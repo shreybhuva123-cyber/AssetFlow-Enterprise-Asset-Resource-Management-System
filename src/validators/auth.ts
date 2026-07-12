@@ -71,8 +71,10 @@ export const updateProfileSchema = z.object({
   lastName: z.string().trim().min(1, 'Last name is required').max(100).optional(),
   displayName: z.string().trim().max(200).optional(),
   phone: z.string().regex(/^\+?[1-9]\d{6,14}$/, 'Invalid phone number').optional().or(z.literal('')),
+  jobTitle: z.string().trim().max(150).optional().nullable(),
   timezone: z.string().max(50).optional(),
   locale: z.string().max(10).optional(),
+  avatarUrl: z.string().url().max(512).optional().nullable(),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;

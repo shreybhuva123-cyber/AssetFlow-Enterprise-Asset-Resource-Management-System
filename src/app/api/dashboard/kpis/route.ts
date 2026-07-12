@@ -15,11 +15,12 @@ export async function GET(req: Request) {
     const [kpis, recentActivity, upcomingReturns] = await Promise.all([
       dashboardRepository.getKPIs(session.profile.orgId, departmentId),
       dashboardRepository.getRecentActivity(session.profile.orgId),
-      dashboardRepository.getUpcomingReturns(session.profile.orgId, departmentId)
+      dashboardRepository.getUpcomingReturns(session.profile.orgId, departmentId),
     ]);
 
     return NextResponse.json({ kpis, recentActivity, upcomingReturns });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Internal server error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

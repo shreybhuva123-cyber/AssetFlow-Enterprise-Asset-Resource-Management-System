@@ -1,10 +1,12 @@
 'use client';
 
+import * as React from 'react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { motionVariants } from '@/styles/tokens/motion';
 import { usePrefersReducedMotion } from '@/hooks/use-media-query';
 
-interface FadeInProps extends HTMLMotionProps<'div'> {
+interface FadeInProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
+  children?: React.ReactNode;
   delay?: number;
   duration?: number;
 }
@@ -31,7 +33,8 @@ export function FadeIn({ children, delay = 0, duration = 0.2, ...props }: FadeIn
   );
 }
 
-interface FadeInUpProps extends HTMLMotionProps<'div'> {
+interface FadeInUpProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
+  children?: React.ReactNode;
   delay?: number;
 }
 
@@ -60,7 +63,8 @@ export function FadeInUp({ children, delay = 0, ...props }: FadeInUpProps) {
   );
 }
 
-interface StaggerContainerProps extends HTMLMotionProps<'div'> {
+interface StaggerContainerProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
+  children?: React.ReactNode;
   staggerDelay?: number;
 }
 
@@ -88,7 +92,11 @@ export function StaggerContainer({ children, staggerDelay = 0.05, ...props }: St
   );
 }
 
-export function StaggerItem({ children, ...props }: HTMLMotionProps<'div'>) {
+interface StaggerItemProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
+  children?: React.ReactNode;
+}
+
+export function StaggerItem({ children, ...props }: StaggerItemProps) {
   return (
     <motion.div
       variants={{

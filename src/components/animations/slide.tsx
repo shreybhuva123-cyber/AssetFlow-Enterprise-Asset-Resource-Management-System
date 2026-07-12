@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { motionVariants } from '@/styles/tokens/motion';
 import { usePrefersReducedMotion } from '@/hooks/use-media-query';
@@ -13,7 +14,8 @@ const directionVariants: Record<SlideDirection, { x?: number; y?: number }> = {
   down: { y: 20 },
 };
 
-interface SlideInProps extends HTMLMotionProps<'div'> {
+interface SlideInProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
+  children?: React.ReactNode;
   direction?: SlideDirection;
   delay?: number;
   duration?: number;

@@ -49,6 +49,7 @@ interface TextFieldProps<T extends FieldValues> {
   label?: string;
   placeholder?: string;
   type?: React.HTMLInputTypeAttribute;
+  autoComplete?: string;
   required?: boolean;
   hint?: string;
   disabled?: boolean;
@@ -60,7 +61,7 @@ interface TextFieldProps<T extends FieldValues> {
 
 export function TextField<T extends FieldValues>({
   control, name, label, placeholder, type = 'text',
-  required, hint, disabled, rules, leftElement, rightElement, className,
+  autoComplete, required, hint, disabled, rules, leftElement, rightElement, className,
 }: TextFieldProps<T>) {
   const id = `field-${name}`;
   return (
@@ -74,6 +75,7 @@ export function TextField<T extends FieldValues>({
             {...field}
             id={id}
             type={type}
+            autoComplete={autoComplete}
             placeholder={placeholder}
             disabled={disabled}
             error={!!fieldState.error}

@@ -44,3 +44,6 @@ export async function getServerSession(): Promise<{ userId: string; profile: Use
     return null;
   }
 }
+
+// Alias — several API routes import `getSession` instead of `getServerSession`
+export const getSession = getServerSession;

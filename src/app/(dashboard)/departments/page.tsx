@@ -163,8 +163,9 @@ export default function DepartmentsPage() {
         <DataTable
           columns={columns}
           data={departments}
-          total={total}
+          totalRows={total}
           page={page}
+          pageSize={20}
           onPageChange={setPage}
         />
       )}

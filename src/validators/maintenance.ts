@@ -56,6 +56,8 @@ export const addCommentSchema = z.object({
   attachments: z.array(z.any()).optional(),
 });
 
+export type MaintenancePriorityInput = typeof MaintenancePriority[number];
+export type MaintenanceStatusInput = typeof MaintenanceStatus[number];
 export type CreateMaintenanceInput = z.infer<typeof createMaintenanceSchema>;
 export type UpdateMaintenanceInput = z.infer<typeof updateMaintenanceSchema>;
 export type ApproveMaintenanceInput = z.infer<typeof approveMaintenanceSchema>;

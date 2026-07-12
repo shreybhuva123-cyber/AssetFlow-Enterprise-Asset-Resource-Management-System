@@ -31,8 +31,9 @@ export const dashboardRepository = {
       })
     ]);
 
-    const utilization = totalAssets > 0 
-      ? Math.round((allocatedAssets / (totalAssets - retiredAssets)) * 100) 
+    const denominator = totalAssets - retiredAssets;
+    const utilization = denominator > 0
+      ? Math.round((allocatedAssets / denominator) * 100)
       : 0;
 
     return {

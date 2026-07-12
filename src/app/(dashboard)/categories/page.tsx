@@ -165,8 +165,9 @@ export default function CategoriesPage() {
         <DataTable
           columns={columns}
           data={categories}
-          total={total}
+          totalRows={total}
           page={page}
+          pageSize={20}
           onPageChange={setPage}
         />
       )}

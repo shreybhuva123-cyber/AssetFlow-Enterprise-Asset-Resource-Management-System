@@ -116,7 +116,8 @@ export function DataTable<TData>({
     if (!onSelectionChange) return;
     const selectedRows = table.getSelectedRowModel().rows.map((r) => r.original);
     onSelectionChange(selectedRows);
-  }, [rowSelection]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rowSelection, onSelectionChange]);
 
   if (isLoading) return <SkeletonTable rows={pageSize > 10 ? 10 : pageSize} cols={allColumns.length} />;
 

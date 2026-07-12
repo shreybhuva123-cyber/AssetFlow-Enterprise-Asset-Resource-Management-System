@@ -19,10 +19,9 @@ export function RegisterForm() {
 
   return (
     <form onSubmit={form.handleSubmit((data) => mutate(data))} noValidate className="space-y-4">
-      <InlineAlert
-        variant="info"
-        message="New accounts are created as Employee. An Admin can promote you after joining."
-      />
+      <InlineAlert variant="info">
+        New accounts are created as Employee. An Admin can promote you after joining.
+      </InlineAlert>
 
       <div className="grid grid-cols-2 gap-4">
         <TextField

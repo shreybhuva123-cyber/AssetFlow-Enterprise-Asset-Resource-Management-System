@@ -7,7 +7,7 @@ export interface DynamicField {
   name: string;
   label: string;
   type: DynamicFieldType;
-  required: boolean;
+  required?: boolean;
   options?: string[];
   placeholder?: string;
   helpText?: string;

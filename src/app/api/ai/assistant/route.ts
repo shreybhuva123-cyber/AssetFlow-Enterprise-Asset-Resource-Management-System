@@ -9,13 +9,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { prompt } = await req.json();
-    if (!prompt) return NextResponse.json({ error: 'Prompt required' }, { status: 400 });
+    const body = await req.json();
+    const prompt: unknown = body?.prompt;
+    if (!prompt || typeof prompt !== 'string') {
+      return NextResponse.json({ error: 'Prompt required' }, { status: 400 });
+    }
 
     const response = await aiAssistantService.query(session.profile.orgId, prompt, session.profile.id);
-    
     return NextResponse.json({ response });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Internal server error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

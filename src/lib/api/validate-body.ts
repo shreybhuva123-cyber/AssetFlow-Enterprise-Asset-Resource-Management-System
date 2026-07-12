@@ -1,11 +1,11 @@
 import { type NextRequest } from 'next/server';
-import { type ZodSchema, ZodError } from 'zod';
+import { type ZodTypeAny, z, ZodError } from 'zod';
 import { badRequestResponse } from '@/lib/utils/api-response';
 
-export async function validateBody<T>(
+export async function validateBody<S extends ZodTypeAny>(
   req: NextRequest,
-  schema: ZodSchema<T>,
-): Promise<{ data: T; error: null } | { data: null; error: Response }> {
+  schema: S,
+): Promise<{ data: z.output<S>; error: null } | { data: null; error: Response }> {
   let body: unknown;
   try {
     body = await req.json();
@@ -15,7 +15,7 @@ export async function validateBody<T>(
 
   const result = schema.safeParse(body);
   if (!result.success) {
-    const formatted = result.error.flatten();
+    const formatted = (result.error as ZodError).flatten();
     return {
       data: null,
       error: badRequestResponse('Validation failed', formatted.fieldErrors),
@@ -25,15 +25,15 @@ export async function validateBody<T>(
   return { data: result.data, error: null };
 }
 
-export function validateQuery<T>(
+export function validateQuery<S extends ZodTypeAny>(
   searchParams: URLSearchParams,
-  schema: ZodSchema<T>,
-): { data: T; error: null } | { data: null; error: Response } {
+  schema: S,
+): { data: z.output<S>; error: null } | { data: null; error: Response } {
   const raw = Object.fromEntries(searchParams.entries());
   const result = schema.safeParse(raw);
 
   if (!result.success) {
-    const formatted = result.error.flatten();
+    const formatted = (result.error as ZodError).flatten();
     return {
       data: null,
       error: badRequestResponse('Invalid query parameters', formatted.fieldErrors),

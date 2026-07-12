@@ -49,7 +49,7 @@ export function SettingsClient() {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" defaultValue={profile?.email || ''} disabled />
+              <Input id="email" defaultValue={profile?.displayName ? '(managed via Supabase Auth)' : ''} disabled />
             </div>
             <Button onClick={handleSave} disabled={loading}>Save Changes</Button>
           </CardContent>

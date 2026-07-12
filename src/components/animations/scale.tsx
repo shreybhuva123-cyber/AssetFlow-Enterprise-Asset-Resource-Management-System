@@ -1,9 +1,11 @@
 'use client';
 
+import * as React from 'react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { usePrefersReducedMotion } from '@/hooks/use-media-query';
 
-interface ScaleInProps extends HTMLMotionProps<'div'> {
+interface ScaleInProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
+  children?: React.ReactNode;
   delay?: number;
   duration?: number;
   from?: number;

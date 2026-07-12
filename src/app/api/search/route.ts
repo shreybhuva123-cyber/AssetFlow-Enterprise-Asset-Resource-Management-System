@@ -25,9 +25,9 @@ export async function GET(req: Request) {
         select: { id: true, name: true, assetTag: true, status: true }
       }),
       prisma.profile.findMany({
-        where: { orgId, OR: [{ displayName: { contains: query, mode } }, { email: { contains: query, mode } }] },
+        where: { orgId, OR: [{ displayName: { contains: query, mode } }, { jobTitle: { contains: query, mode } }] },
         take: 3,
-        select: { id: true, displayName: true, email: true, avatarUrl: true }
+        select: { id: true, displayName: true, jobTitle: true, avatarUrl: true }
       }),
       prisma.department.findMany({
         where: { orgId, OR: [{ name: { contains: query, mode } }, { code: { contains: query, mode } }] },
@@ -37,7 +37,8 @@ export async function GET(req: Request) {
     ]);
 
     return NextResponse.json({ assets, employees, departments });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Internal server error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

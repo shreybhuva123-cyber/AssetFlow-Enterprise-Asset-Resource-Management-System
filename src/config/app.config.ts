@@ -37,8 +37,8 @@ export const appConfig = {
   meta: {
     title: env.NEXT_PUBLIC_APP_NAME,
     description: 'Enterprise Asset & Resource Management System',
-    keywords: ['asset management', 'maintenance', 'procurement', 'depreciation'],
-    authors: [{ name: 'AssetFlow Team' }],
+    keywords: ['asset management', 'maintenance', 'procurement', 'depreciation'] as string[],
+    authors: [{ name: 'AssetFlow Team' }] as { name: string }[],
     themeColor: '#0f172a',
   },
 

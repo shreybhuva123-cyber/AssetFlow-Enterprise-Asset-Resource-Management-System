@@ -41,14 +41,26 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   loading?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+  /** Pass a Lucide icon component (e.g. `leftIcon={Plus}`) or any ReactNode */
+  leftIcon?: React.ElementType | React.ReactNode;
+  /** Pass a Lucide icon component (e.g. `rightIcon={ChevronRight}`) or any ReactNode */
+  rightIcon?: React.ElementType | React.ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, loading, leftIcon, rightIcon, children, disabled, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     const isDisabled = disabled || loading;
+
+    // Render icon: if it's a component constructor, instantiate it; otherwise treat as ReactNode
+    const renderIcon = (icon: React.ElementType | React.ReactNode) => {
+      if (!icon) return null;
+      if (typeof icon === 'function' || (typeof icon === 'object' && icon !== null && '$$typeof' in (icon as object))) {
+        const IconComp = icon as React.ElementType;
+        return <IconComp aria-hidden="true" />;
+      }
+      return icon as React.ReactNode;
+    };
 
     return (
       <Comp
@@ -62,10 +74,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {loading ? (
           <Loader2 className="animate-spin" aria-hidden="true" />
         ) : (
-          leftIcon
+          renderIcon(leftIcon)
         )}
         {children}
-        {!loading && rightIcon}
+        {!loading && renderIcon(rightIcon)}
       </Comp>
     );
   },
