@@ -3,7 +3,7 @@ import type { ApiResponse, PaginatedResponse, PaginationMeta } from '@/types/api
 
 export function successResponse<T>(data: T, status = 200): NextResponse<ApiResponse<T>> {
   return NextResponse.json(
-    { success: true, data, timestamp: new Date().toISOString() },
+    { success: true, data, error: null, timestamp: new Date().toISOString() },
     { status },
   );
 }
@@ -25,7 +25,8 @@ export function paginatedResponse<T>(
     {
       success: true,
       data,
-      pagination,
+      error: null,
+      meta: pagination,
       timestamp: new Date().toISOString(),
     },
     { status },

@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server';
-import { type ZodTypeAny, z, ZodError } from 'zod';
+import type { z, ZodError, ZodTypeAny } from 'zod';
 import { badRequestResponse } from '@/lib/utils/api-response';
 
 export async function validateBody<S extends ZodTypeAny>(

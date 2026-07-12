@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { useRouter } from 'next/navigation';
+
 import {
   Plus,
   Search,
@@ -14,7 +14,6 @@ import {
   AlertCircle,
   Clock,
   CheckCircle2,
-  Loader2,
 } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -99,7 +98,6 @@ function TableSkeleton() {
 }
 
 export function AllocationListClient() {
-  const router = useRouter();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [page, setPage] = useState(1);

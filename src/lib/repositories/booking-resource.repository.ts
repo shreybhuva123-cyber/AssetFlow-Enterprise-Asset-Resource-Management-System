@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { BookingResourceType, Prisma } from '@prisma/client';
+import type { BookingResourceType, Prisma } from '@prisma/client';
 
 const resourceSelect = {
   id: true, orgId: true, assetId: true, name: true, resourceType: true,

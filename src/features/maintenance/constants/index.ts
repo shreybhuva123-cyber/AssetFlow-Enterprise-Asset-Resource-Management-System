@@ -2,19 +2,20 @@ import { MaintenanceStatus, MaintenanceType, WorkOrderPriority } from '@/constan
 
 export const MAINTENANCE_STATUS_OPTIONS = [
   { value: MaintenanceStatus.PENDING,     label: 'Pending' },
-  { value: MaintenanceStatus.APPROVED,    label: 'Approved' },
+  { value: MaintenanceStatus.SCHEDULED,   label: 'Scheduled' },
   { value: MaintenanceStatus.IN_PROGRESS, label: 'In Progress' },
   { value: MaintenanceStatus.ON_HOLD,     label: 'On Hold' },
   { value: MaintenanceStatus.COMPLETED,   label: 'Completed' },
   { value: MaintenanceStatus.CANCELLED,   label: 'Cancelled' },
+  { value: MaintenanceStatus.OVERDUE,     label: 'Overdue' },
 ] as const;
 
 export const MAINTENANCE_TYPE_OPTIONS = [
-  { value: MaintenanceType.PREVENTIVE,  label: 'Preventive' },
-  { value: MaintenanceType.CORRECTIVE,  label: 'Corrective' },
-  { value: MaintenanceType.PREDICTIVE,  label: 'Predictive' },
-  { value: MaintenanceType.EMERGENCY,   label: 'Emergency' },
-  { value: MaintenanceType.INSPECTION,  label: 'Inspection' },
+  { value: MaintenanceType.PREVENTIVE,      label: 'Preventive' },
+  { value: MaintenanceType.CORRECTIVE,      label: 'Corrective' },
+  { value: MaintenanceType.PREDICTIVE,      label: 'Predictive' },
+  { value: MaintenanceType.EMERGENCY,       label: 'Emergency' },
+  { value: MaintenanceType.CONDITION_BASED, label: 'Condition Based' },
 ] as const;
 
 export const PRIORITY_OPTIONS = [

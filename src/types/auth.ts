@@ -48,9 +48,9 @@ export interface UserProfile {
   role: UserRole;
   isActive: boolean;
   preferences: Record<string, unknown>;
-  lastSeenAt: Timestamp | null;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
+  lastSeenAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserWithProfile extends User {

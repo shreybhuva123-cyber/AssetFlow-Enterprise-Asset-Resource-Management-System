@@ -2,11 +2,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
-import { notify } from '@/lib/toast';
 import { ALLOCATION_STATUS_CONFIG, statusBadgeClass, RETURN_CONDITION_CONFIG } from '@/features/allocations/constants';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft, RotateCcw, AlertCircle } from '@/lib/icons';
 import { ReturnDialog } from '@/features/allocations/components/return-dialog';
 import Link from 'next/link';

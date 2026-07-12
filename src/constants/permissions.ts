@@ -112,7 +112,8 @@ const ORG_ADMIN_PERMISSIONS: Permission[] = [
   Permission.SETTINGS_UPDATE,
 ];
 
-const SUPER_ADMIN_PERMISSIONS: Permission[] = Object.values(Permission);
+const _SUPER_ADMIN_PERMISSIONS: Permission[] = Object.values(Permission);
+void _SUPER_ADMIN_PERMISSIONS;
 
 export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
   [UserRole.ADMIN]:           ORG_ADMIN_PERMISSIONS,

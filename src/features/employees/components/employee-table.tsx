@@ -2,9 +2,8 @@
 
 import * as React from 'react';
 import type { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal, UserCog, UserMinus, Pencil } from 'lucide-react';
+import { MoreHorizontal, UserCog, Pencil } from 'lucide-react';
 import { DataTable } from '@/components/table/data-table';
-import { DataTableToolbar } from '@/components/table/data-table-toolbar';
 import { UserAvatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,7 +15,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { USER_ROLE_LABELS, UserRole } from '@/types/auth';
-import { cn } from '@/lib/utils/cn';
 import { formatRelative } from '@/lib/utils/date';
 
 interface Employee {
@@ -170,8 +168,9 @@ export function EmployeeTable({
       columns={columns}
       data={data}
       isLoading={isLoading}
-      total={total}
+      totalRows={total}
       page={page}
+      pageSize={25}
       onPageChange={onPageChange}
     />
   );

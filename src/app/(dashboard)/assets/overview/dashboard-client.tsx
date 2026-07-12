@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ExternalLink, Clock } from 'lucide-react';
-import { format } from 'date-fns';
 import { AssetStatsWidgets, type AssetStatsData } from '@/features/assets/components/asset-stats-widgets';
 import { AssetStatusPieChart, AssetConditionBarChart } from '@/features/assets/components/asset-charts';
 import { AssetStatusBadge } from '@/features/assets/components/asset-status-badge';

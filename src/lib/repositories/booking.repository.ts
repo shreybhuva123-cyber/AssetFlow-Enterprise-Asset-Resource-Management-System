@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { BookingStatus, Prisma } from '@prisma/client';
+import type { BookingStatus, Prisma } from '@prisma/client';
 
 const bookingSelect = {
   id: true, orgId: true, resourceId: true, bookedById: true, departmentId: true,

@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { type FieldValues, type FieldPath, useController, type UseControllerProps } from 'react-hook-form';
+import { type FieldValues, useController, type UseControllerProps } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils/cn';
 import { toCents, fromCents } from '@/lib/utils/currency';

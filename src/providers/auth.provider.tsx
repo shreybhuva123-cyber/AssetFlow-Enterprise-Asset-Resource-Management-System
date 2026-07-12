@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import type { Session } from '@supabase/supabase-js';
+import type { Session, AuthChangeEvent } from '@supabase/supabase-js';
 import { getSupabaseClient as createClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/store/auth.store';
 import type { User, UserProfile } from '@/types/auth';
@@ -17,6 +17,7 @@ function mapSupabaseUser(session: Session): User {
     emailVerified: !!su.email_confirmed_at,
     createdAt: new Date(su.created_at),
     updatedAt: new Date(su.updated_at ?? su.created_at),
+    lastSignInAt: su.last_sign_in_at ? new Date(su.last_sign_in_at) : null,
   };
 }
 
@@ -51,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     void loadSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event: AuthChangeEvent, session: Session | null) => {
       if (!mounted) return;
       logger.info(`Auth state changed: ${event}`);
 

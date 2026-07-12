@@ -82,7 +82,7 @@ export async function updateDepartment(id: string, orgId: string, data: UpdateDe
   });
 }
 
-export async function softDeleteDepartment(id: string, orgId: string) {
+export async function softDeleteDepartment(id: string, _orgId: string) {
   return prisma.department.update({
     where: { id },
     data: { deletedAt: new Date() },

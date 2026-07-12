@@ -15,7 +15,6 @@ import {
   type RowSelectionState,
 } from '@tanstack/react-table';
 import { cn } from '@/lib/utils/cn';
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { SkeletonTable } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/common/empty-state';

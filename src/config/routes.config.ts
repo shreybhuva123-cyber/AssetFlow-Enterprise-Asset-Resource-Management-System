@@ -17,6 +17,7 @@ export const publicRoutes: string[] = [
   '/verify-email',
   '/unauthorized',
   '/maintenance',
+  '/api/auth',
 ];
 
 export const authRoutes: string[] = [

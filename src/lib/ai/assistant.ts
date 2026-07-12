@@ -2,7 +2,7 @@ import { aiProvider } from './gemini';
 import { prisma } from '../prisma';
 
 export const aiAssistantService = {
-  async query(orgId: string, prompt: string, userId: string) {
+  async query(orgId: string, prompt: string, _userId: string) {
     // 1. Gather context securely based on RBAC/OrgId
     // For a real implementation, we would extract the intent and query specific tables.
     // Here we gather a high-level summary to feed to the LLM.

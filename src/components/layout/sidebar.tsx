@@ -13,7 +13,6 @@ import {
   BarChart3,
   Shield,
   Settings,
-  Crown,
   ChevronLeft,
   ChevronRight,
   Users,

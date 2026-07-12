@@ -4,7 +4,6 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Plus, Trash2, Star, X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { notify } from '@/lib/toast';
 import { cn } from '@/lib/utils/cn';
 
@@ -103,7 +102,7 @@ export function AssetGallery({ assetId, images, canEdit, onUpdate }: AssetGaller
             <Star className="h-6 w-6 opacity-30" />
           </div>
           <p className="font-medium">No images yet</p>
-          {canEdit && <p className="text-sm mt-0.5">Click "Add Image" to upload the first photo</p>}
+          {canEdit && <p className="text-sm mt-0.5">Click &quot;Add Image&quot; to upload the first photo</p>}
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">

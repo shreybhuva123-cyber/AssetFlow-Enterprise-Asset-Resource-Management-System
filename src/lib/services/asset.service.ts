@@ -24,14 +24,13 @@ import {
   getAssetTimeline,
   getAssetActivities,
 } from '@/lib/repositories/asset-timeline.repository';
-import { AssetStatus, AssetCondition, ASSET_STATUS_TRANSITIONS } from '@/constants/status';
+import { AssetStatus, ASSET_STATUS_TRANSITIONS } from '@/constants/status';
 import { prisma } from '@/lib/prisma';
 import { TimelineEventType } from '@prisma/client';
 import type {
   CreateAssetInput,
   UpdateAssetInput,
   StatusTransitionInput,
-  AssetFiltersInput,
   BulkStatusChangeInput,
   BulkDeleteInput,
 } from '@/validators/asset';

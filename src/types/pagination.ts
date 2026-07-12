@@ -28,8 +28,15 @@ export interface SortField<T = string> {
 }
 
 export interface PaginatedResult<T> {
-  items: T[];
-  pageInfo: PageInfo;
+  data: T[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
 }
 
 export interface CursorPaginatedResult<T> {

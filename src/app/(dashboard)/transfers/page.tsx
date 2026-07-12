@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
-import { Plus, Search, Filter, ArrowRight, Eye, CheckCircle2, Clock, XCircle } from '@/lib/icons';
+import { Plus, Search, Filter, ArrowRight, Eye, CheckCircle2, XCircle } from '@/lib/icons';
 import { notify } from '@/lib/toast';
 import { TRANSFER_STATUS_CONFIG, statusBadgeClass } from '@/features/allocations/constants';
 import { Button } from '@/components/ui/button';
@@ -30,7 +30,6 @@ export default function TransfersPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
-  const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [approveId, setApproveId] = useState<string | null>(null);
   const [decision, setDecision] = useState<'APPROVED' | 'REJECTED'>('APPROVED');
@@ -46,7 +45,6 @@ export default function TransfersPage() {
       const res = await fetch(`/api/transfers?${params}`);
       const data = await res.json();
       setTransfers(data.data ?? []);
-      setTotal(data.total ?? 0);
     } catch { notify.error('Failed to load transfers'); }
     finally { setLoading(false); }
   }, [search, status, page]);

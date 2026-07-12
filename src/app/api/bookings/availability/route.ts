@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth/get-session';
 import { bookingService } from '@/lib/services/booking.service';
 
@@ -13,7 +14,7 @@ export async function GET(req: NextRequest) {
   try {
     const bookings = await bookingService.checkAvailability(resourceId, orgId, new Date(dateStr));
     return NextResponse.json({ data: bookings });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: 'Failed to check availability' }, { status: 500 });
   }
 }

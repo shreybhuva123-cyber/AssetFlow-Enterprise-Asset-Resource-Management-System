@@ -1,13 +1,12 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm , Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createDepartmentSchema, type CreateDepartmentInput } from '@/validators/department';
 import { TextField, TextareaField, SelectField } from '@/components/forms/form-field';
 import { FormActions } from '@/components/forms/form-actions';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Controller } from 'react-hook-form';
 
 interface DepartmentFormProps {
   defaultValues?: Partial<CreateDepartmentInput>;

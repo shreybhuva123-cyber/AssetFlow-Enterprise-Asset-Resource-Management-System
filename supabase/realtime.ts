@@ -42,8 +42,8 @@ export function subscribeToTable<T extends Record<string, unknown>>(
   const channel = supabase
     .channel(channelName)
     .on(
-      'postgres_changes',
-      { event, schema, table, ...(filter ? { filter } : {}) },
+      'postgres_changes' as 'system',
+      { event, schema, table, ...(filter ? { filter } : {}) } as never,
       (payload: RealtimePostgresChangesPayload<T>) => {
         logger.debug(`Realtime ${payload.eventType} on ${table}`);
         onChange?.(payload);

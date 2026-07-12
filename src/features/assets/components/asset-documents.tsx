@@ -3,7 +3,6 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Download, Trash2, Plus, Loader2, File, FileImage } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { notify } from '@/lib/toast';
 import { format } from 'date-fns';

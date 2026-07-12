@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { registerSchema, loginSchema, forgotPasswordSchema } from '@/validators/auth';
+import { registerSchema, loginSchema } from '@/validators/auth';
 import { createDepartmentSchema } from '@/validators/department';
 import { createAssetCategorySchema } from '@/validators/asset-category';
 import { promoteEmployeeSchema } from '@/validators/employee';

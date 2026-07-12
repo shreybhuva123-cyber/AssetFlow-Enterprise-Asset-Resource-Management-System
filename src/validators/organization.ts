@@ -28,18 +28,12 @@ export const inviteMemberSchema = z.object({
   email: emailSchema,
   role: z.nativeEnum(UserRole, {
     errorMap: () => ({ message: 'Invalid role' }),
-  }).refine(
-    (role) => role !== UserRole.SUPER_ADMIN,
-    { message: 'Cannot invite users with Super Admin role' },
-  ),
+  }),
   message: z.string().max(500).optional(),
 });
 
 export const updateMemberRoleSchema = z.object({
-  role: z.nativeEnum(UserRole).refine(
-    (role) => role !== UserRole.SUPER_ADMIN,
-    { message: 'Cannot assign Super Admin role' },
-  ),
+  role: z.nativeEnum(UserRole),
 });
 
 export type CreateOrgInput = z.infer<typeof createOrgSchema>;

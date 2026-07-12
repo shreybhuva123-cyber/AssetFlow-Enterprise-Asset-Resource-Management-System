@@ -141,7 +141,7 @@ export const transferService = {
     });
   },
 
-  async cancelTransfer(orgId: string, transferId: string, actorId: string) {
+  async cancelTransfer(orgId: string, transferId: string, _actorId: string) {
     const transfer = await transferRepository.findById(transferId, orgId);
     if (!transfer) throw new Error('Transfer not found');
     if (['COMPLETED', 'REJECTED', 'CANCELLED'].includes(transfer.status)) {

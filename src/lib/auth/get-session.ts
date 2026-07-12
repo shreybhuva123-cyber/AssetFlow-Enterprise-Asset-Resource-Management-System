@@ -1,24 +1,21 @@
-import { getSupabaseServer } from '@/lib/supabase/server';
+import { headers } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 import type { UserProfile } from '@/types/auth';
 
 export async function getServerSession(): Promise<{ userId: string; profile: UserProfile } | null> {
   try {
-    const supabase = await getSupabaseServer();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) return null;
+    const headerStore = await headers();
+    const userId = headerStore.get('x-user-id');
+    if (!userId) return null;
 
     const profile = await prisma.profile.findUnique({
-      where: { userId: user.id },
+      where: { userId },
     });
 
     if (!profile) return null;
 
     return {
-      userId: user.id,
+      userId,
       profile: {
         id: profile.id,
         userId: profile.userId,

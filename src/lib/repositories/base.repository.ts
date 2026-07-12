@@ -12,9 +12,11 @@ export abstract class BaseRepository<
   TWhereInput = Record<string, unknown>,
 > {
   protected readonly prisma: PrismaClient = prisma;
-  protected readonly logger = createLogger(`Repository:${this.modelName}`);
+  protected readonly logger;
 
-  constructor(protected readonly modelName: string) {}
+  constructor(protected readonly modelName: string) {
+    this.logger = createLogger(`Repository:${this.modelName}`);
+  }
 
   protected abstract getDelegate(): {
     findUnique: (args: { where: { id: string } }) => Promise<TModel | null>;

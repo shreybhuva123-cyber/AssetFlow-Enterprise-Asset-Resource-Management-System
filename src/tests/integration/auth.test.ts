@@ -7,7 +7,7 @@
  * Adapt mock setup to your actual test runner configuration.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { POST as registerRoute } from '@/app/api/auth/register/route';
 import { POST as loginRoute } from '@/app/api/auth/login/route';
 import { NextRequest } from 'next/server';
@@ -108,7 +108,7 @@ describe('POST /api/auth/register', () => {
       role: 'ADMIN', // attacker attempts role escalation
     });
 
-    const res = await registerRoute(req);
+    await registerRoute(req);
     // Should still succeed but profile.create is called with EMPLOYEE
     const { prisma } = await import('@/lib/prisma');
     expect(prisma.profile.create).toHaveBeenCalledWith(

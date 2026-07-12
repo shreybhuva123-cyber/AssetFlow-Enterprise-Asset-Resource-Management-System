@@ -14,7 +14,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ChevronUp, ChevronDown, ChevronsUpDown, Settings2, Download,
+  ChevronUp, ChevronDown, ChevronsUpDown, Settings2,
   Trash2, RefreshCw, Eye, Edit, QrCode, CheckSquare, Square,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';

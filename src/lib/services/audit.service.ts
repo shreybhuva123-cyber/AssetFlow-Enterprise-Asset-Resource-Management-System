@@ -1,10 +1,9 @@
 import { auditRepository } from '../repositories/audit.repository';
 import { activityLogRepository } from '../repositories/activitylog.repository';
-import { CreateAuditCycleInput, UpdateAuditCycleInput, VerifyAssetInput, ReportDiscrepancyInput, ResolveDiscrepancyInput } from '@/validators/audit';
-import { prisma } from '../prisma';
+import type { CreateAuditCycleInput, VerifyAssetInput, ReportDiscrepancyInput } from '@/validators/audit';
 
 export const auditService = {
-  async findMany(orgId: string, params: any) {
+  async findMany(orgId: string, params: Record<string, unknown>) {
     return auditRepository.findMany(orgId, params);
   },
 

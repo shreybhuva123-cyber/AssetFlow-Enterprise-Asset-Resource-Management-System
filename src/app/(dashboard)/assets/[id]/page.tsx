@@ -4,7 +4,7 @@ import { getServerSession } from '@/lib/auth/get-session';
 import { getAssetById } from '@/lib/services/asset.service';
 import { AssetDetailClient } from './detail-client';
 import { UserRole } from '@/types/auth';
-import { AssetStatus } from '@/constants/status';
+import type { AssetStatus } from '@/constants/status';
 
 interface Props { params: Promise<{ id: string }> }
 

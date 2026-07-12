@@ -1,11 +1,12 @@
 import { createLogger } from '@/lib/logger/index';
-import { normalizeError } from '@/types/errors';
-import { AppError } from '@/types/errors';
+import { normalizeError , AppError } from '@/types/errors';
 
 export abstract class BaseService {
-  protected readonly logger = createLogger(`Service:${this.serviceName}`);
+  protected readonly logger;
 
-  constructor(protected readonly serviceName: string) {}
+  constructor(protected readonly serviceName: string) {
+    this.logger = createLogger(`Service:${this.serviceName}`);
+  }
 
   protected async executeWithErrorHandling<T>(
     operation: string,

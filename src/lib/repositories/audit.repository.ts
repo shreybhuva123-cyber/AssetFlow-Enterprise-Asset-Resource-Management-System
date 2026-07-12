@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { AuditCycleStatus, Prisma } from '@prisma/client';
+import type { AuditCycleStatus, Prisma } from '@prisma/client';
 
 const auditCycleSelect = {
   id: true, orgId: true, name: true, description: true, status: true,

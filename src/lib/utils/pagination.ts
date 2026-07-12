@@ -21,24 +21,26 @@ export function parsePaginationParams(
     pageSize: Number.isFinite(rawPageSize) && rawPageSize > 0
       ? Math.min(rawPageSize, appConfig.pagination.maxPageSize)
       : appConfig.pagination.defaultPageSize,
-    sortBy,
-    sortOrder: sortOrder === 'desc' ? 'desc' : 'asc',
+    ...(sortBy && { sortBy }),
+    ...(sortOrder && { sortOrder: sortOrder === 'desc' ? 'desc' as const : 'asc' as const }),
   };
 }
 
 export function buildPaginatedResult<T>(
   data: T[],
   total: number,
-  params: OffsetPaginationParams,
+  pageOrParams: number | OffsetPaginationParams,
+  pageSize?: number,
 ): PaginatedResult<T> {
-  const { page, pageSize } = params;
-  const totalPages = Math.ceil(total / pageSize);
+  const page = typeof pageOrParams === 'number' ? pageOrParams : pageOrParams.page;
+  const size = typeof pageOrParams === 'number' ? (pageSize ?? 25) : pageOrParams.pageSize;
+  const totalPages = Math.ceil(total / size);
 
   return {
     data,
     pagination: {
       page,
-      pageSize,
+      pageSize: size,
       total,
       totalPages,
       hasNextPage: page < totalPages,
@@ -68,6 +70,8 @@ export function buildPageInfo(page: number, pageSize: number, total: number): Pa
     totalPages,
     hasNextPage: page < totalPages,
     hasPreviousPage: page > 1,
+    startIndex: total === 0 ? 0 : (page - 1) * pageSize + 1,
+    endIndex: total === 0 ? 0 : Math.min(page * pageSize, total),
   };
 }
 

@@ -1,10 +1,10 @@
 import { maintenanceRepository } from '../repositories/maintenance.repository';
 import { activityLogRepository } from '../repositories/activitylog.repository';
-import { CreateMaintenanceInput, UpdateMaintenanceInput, ApproveMaintenanceInput, AddCommentInput } from '@/validators/maintenance';
+import type { CreateMaintenanceInput, ApproveMaintenanceInput, AddCommentInput } from '@/validators/maintenance';
 import { prisma } from '../prisma';
 
 export const maintenanceService = {
-  async findMany(orgId: string, params: any) {
+  async findMany(orgId: string, params: Record<string, unknown>) {
     return maintenanceRepository.findMany(orgId, params);
   },
 

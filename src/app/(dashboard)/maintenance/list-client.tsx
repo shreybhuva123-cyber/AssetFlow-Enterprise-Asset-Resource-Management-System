@@ -10,11 +10,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { notify } from '@/lib/toast';
 import { StatusBadge } from './status-badge';
 
+interface MaintenanceRequest { id: string; title: string; priority: string; status: string; createdAt: string; asset: { name: string } }
+
 export function MaintenanceListClient() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [page, setPage] = useState(1);
-  const [requests, setRequests] = useState<any[]>([]);
+  const [requests, setRequests] = useState<MaintenanceRequest[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 

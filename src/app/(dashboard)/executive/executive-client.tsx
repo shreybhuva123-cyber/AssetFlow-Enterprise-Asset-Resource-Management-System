@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Activity, ShieldAlert, TrendingUp, TrendingDown, Wrench, AlertTriangle, Lightbulb } from 'lucide-react';
+import { Activity, ShieldAlert, TrendingUp, Wrench, AlertTriangle, Lightbulb } from 'lucide-react';
 
 export function ExecutiveClient() {
   // Hardcoded for demo purposes as requested for rapid development.
@@ -80,7 +79,7 @@ export function ExecutiveClient() {
                 <Activity className="h-5 w-5 text-blue-500 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-semibold text-blue-600 dark:text-blue-400">Underutilized Resources</h4>
-                  <p className="text-sm text-muted-foreground mt-1">Projector "Conference Room A" has not been booked in 45 days. Recommended action: Reallocate to Marketing floor.</p>
+                  <p className="text-sm text-muted-foreground mt-1">Projector &quot;Conference Room A&quot; has not been booked in 45 days. Recommended action: Reallocate to Marketing floor.</p>
                 </div>
               </div>
             </div>

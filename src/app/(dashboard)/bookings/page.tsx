@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import dynamic from 'next/dynamic';
-import { Plus, Search, List, Calendar, Clock, CheckCircle2, X } from '@/lib/icons';
+import { Plus, Search, List, Calendar, Clock, CheckCircle2 } from '@/lib/icons';
 import { notify } from '@/lib/toast';
 import { BOOKING_STATUS_CONFIG, statusBadgeClass, RESOURCE_TYPE_CONFIG } from '@/features/allocations/constants';
 import { Button } from '@/components/ui/button';
@@ -30,10 +30,9 @@ export default function BookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [view, setView] = useState<'list' | 'calendar'>('list');
-  const [stats, setStats] = useState({ upcoming: 0, ongoing: 0, todayCount: 0 });
+  const [stats] = useState({ upcoming: 0, ongoing: 0, todayCount: 0 });
 
   const fetchBookings = useCallback(async () => {
     setLoading(true);
@@ -43,7 +42,6 @@ export default function BookingsPage() {
       const res = await fetch(`/api/bookings?${params}`);
       const data = await res.json();
       setBookings(data.data ?? []);
-      setTotal(data.total ?? 0);
     } catch { notify.error('Failed to load bookings'); }
     finally { setLoading(false); }
   }, [search, page]);

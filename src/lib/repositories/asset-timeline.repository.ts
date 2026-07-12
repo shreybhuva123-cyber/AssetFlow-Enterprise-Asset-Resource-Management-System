@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
-import { TimelineEventType, Prisma } from '@prisma/client';
+import type { TimelineEventType} from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 export interface CreateTimelineEventInput {
   assetId:     string;

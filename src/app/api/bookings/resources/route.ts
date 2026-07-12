@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth/get-session';
 import { bookingResourceRepository } from '@/lib/repositories/booking-resource.repository';
 
@@ -14,7 +15,7 @@ export async function GET(req: NextRequest) {
       isActive:     searchParams.get('isActive') !== 'false',
     });
     return NextResponse.json({ data: resources });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch resources' }, { status: 500 });
   }
 }

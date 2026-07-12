@@ -4,8 +4,6 @@ import * as React from 'react';
 import { type FieldValues, useController, type UseControllerProps } from 'react-hook-form';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils/cn';
 
@@ -28,7 +26,7 @@ export function DatePicker({
   label,
   hint,
   error,
-  placeholder = 'Pick a date',
+  placeholder: _placeholder = 'Pick a date',
   className,
   disabled,
   required,
@@ -38,7 +36,6 @@ export function DatePicker({
   minDate,
   maxDate,
 }: DatePickerProps) {
-  const [open, setOpen] = React.useState(false);
   const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-');
   const [inputValue, setInputValue] = React.useState(
     value ? format(value, 'yyyy-MM-dd') : '',
@@ -57,11 +54,6 @@ export function DatePicker({
       if (maxDate && parsed > maxDate) return;
       onChange?.(parsed);
     }
-  }
-
-  function handleClear() {
-    setInputValue('');
-    onChange?.(null);
   }
 
   return (

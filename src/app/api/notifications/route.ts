@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth/get-session';
 import { notificationService } from '@/lib/services/notification.service';
 
@@ -13,7 +14,7 @@ export async function GET(req: NextRequest) {
       isRead === 'true' ? true : isRead === 'false' ? false : undefined
     );
     return NextResponse.json({ data: notifications });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch notifications' }, { status: 500 });
   }
 }
@@ -33,7 +34,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ message: 'Notifications marked as read' });
     }
     return NextResponse.json({ error: 'Provide ids array or all:true' }, { status: 400 });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update notifications' }, { status: 500 });
   }
 }

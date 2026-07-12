@@ -20,7 +20,6 @@ export async function GET(_req: NextRequest, { params }: RouteContext) {
 export async function PATCH(req: NextRequest, { params }: RouteContext) {
   const session = await getServerSession();
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const orgId = session.profile.orgId!;
   const { id } = await params;
   const body = await req.json();
   const parsed = updateAllocationSchema.safeParse(body);

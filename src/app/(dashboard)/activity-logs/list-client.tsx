@@ -12,7 +12,7 @@ export function ActivityListClient() {
   const [search, setSearch] = useState('');
   const [moduleFilter, setModuleFilter] = useState('ALL');
   const [page, setPage] = useState(1);
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<Record<string, unknown>[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -95,23 +95,26 @@ export function ActivityListClient() {
               </tr>
             </thead>
             <tbody>
-              {logs.map((log) => (
-                <tr key={log.id} className="border-b hover:bg-muted/20">
+              {logs.map((log) => {
+                const actor = log.actor as { displayName?: string } | null | undefined;
+                return (
+                <tr key={log.id as string} className="border-b hover:bg-muted/20">
                   <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
-                    {format(new Date(log.createdAt), 'MMM d, yyyy HH:mm')}
+                    {format(new Date(log.createdAt as string), 'MMM d, yyyy HH:mm')}
                   </td>
                   <td className="px-4 py-3 font-medium">
-                    {log.actor?.displayName || 'System'}
+                    {actor?.displayName ?? 'System'}
                   </td>
                   <td className="px-4 py-3">
                     <span className="px-2 py-1 text-xs font-medium rounded-full bg-muted text-foreground">
-                      {log.action}
+                      {log.action as string}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">{log.module}</td>
-                  <td className="px-4 py-3 text-muted-foreground truncate max-w-xs">{log.description}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{log.module as string}</td>
+                  <td className="px-4 py-3 text-muted-foreground truncate max-w-xs">{log.description as string}</td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
           {totalPages > 1 && (

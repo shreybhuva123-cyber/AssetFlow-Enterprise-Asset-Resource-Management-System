@@ -1,12 +1,12 @@
-import { AIProvider } from './provider';
+import type { AIProvider } from './provider';
 
 // This is a placeholder implementation.
 // In a real scenario, this would use the @google/genai SDK or OpenAI SDK.
 export class GeminiProvider implements AIProvider {
-  async generateResponse(prompt: string, context: any): Promise<string> {
+  async generateResponse(prompt: string, context: Record<string, unknown>): Promise<string> {
     // Simulated natural language response based on context
-    const strContext = JSON.stringify(context).toLowerCase();
     const strPrompt = prompt.toLowerCase();
+    void context;
     
     if (strPrompt.includes('overdue')) {
       return `I found some overdue assets based on your query. Please check the dashboard for a full list.`;
@@ -19,7 +19,7 @@ export class GeminiProvider implements AIProvider {
     return `Based on your organization's data, I can confirm that your request has been processed. (Simulated AI response for demo)`;
   }
 
-  async extractEntities(text: string): Promise<Record<string, any>> {
+  async extractEntities(_text: string): Promise<Record<string, unknown>> {
     return {
       intent: 'general_query',
       entities: {}

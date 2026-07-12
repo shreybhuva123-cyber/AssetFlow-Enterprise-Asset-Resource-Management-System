@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
-import { AssetStatus, AllocationStatus, TimelineEventType, Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
+import { AssetStatus, AllocationStatus, TimelineEventType } from '@prisma/client';
 import { allocationRepository } from '@/lib/repositories/allocation.repository';
 import type { CreateAllocationInput, ReturnAllocationInput, ApproveAllocationInput } from '@/validators/allocation';
 
@@ -45,7 +46,7 @@ export const allocationService = {
           priority:           input.priority,
           status:             AllocationStatus.ACTIVE,
           approvalStatus:     input.requiresApproval ? 'PENDING' : 'APPROVED',
-          ...(input.requiresApproval ? {} : { approvedById: actorId, approvedAt: new Date() }),
+          ...(input.requiresApproval ? {} : { approvedBy: { connect: { id: actorId } }, approvedAt: new Date() }),
         },
       });
 
@@ -59,7 +60,7 @@ export const allocationService = {
       await tx.assetTimeline.create({
         data: {
           asset:     { connect: { id: input.assetId } },
-          org:       { connect: { id: orgId } },
+          orgId,
           eventType: TimelineEventType.ALLOCATION_CREATED,
           title:     'Asset Allocated',
           description: `Allocated to employee. Purpose: ${input.purpose ?? 'Not specified'}`,
@@ -111,7 +112,7 @@ export const allocationService = {
       await tx.assetTimeline.create({
         data: {
           asset:     { connect: { id: allocation.assetId } },
-          org:       { connect: { id: orgId } },
+          orgId,
           eventType: TimelineEventType.ALLOCATION_RETURNED,
           title:     'Asset Returned',
           description: `Returned in ${input.condition.toLowerCase()} condition`,
@@ -148,7 +149,7 @@ export const allocationService = {
       await tx.assetTimeline.create({
         data: {
           asset:     { connect: { id: allocation.assetId } },
-          org:       { connect: { id: orgId } },
+          orgId,
           eventType: TimelineEventType.ALLOCATION_APPROVED,
           title:     `Allocation ${input.decision === 'APPROVED' ? 'Approved' : 'Rejected'}`,
           description: input.approvalNotes ?? undefined,

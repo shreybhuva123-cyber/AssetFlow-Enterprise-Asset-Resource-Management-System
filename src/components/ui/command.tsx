@@ -5,7 +5,7 @@ import { Search, X } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
-import { isAdmin, canManageDepartments, canManageCategories } from '@/lib/auth/rbac';
+
 import { cn } from '@/lib/utils/cn';
 
 interface CommandItem {

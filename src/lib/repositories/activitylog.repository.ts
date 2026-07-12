@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { ActivitySeverity, Prisma } from '@prisma/client';
+import type { ActivitySeverity, Prisma } from '@prisma/client';
 
 export const activityLogRepository = {
   async findMany(orgId: string, params: { module?: string; action?: string; severity?: ActivitySeverity; actorId?: string; search?: string; page?: number; limit?: number } = {}) {

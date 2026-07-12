@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 import { format, formatDistanceToNow } from 'date-fns';
 import {
   Plus, Wrench, RotateCcw, AlertTriangle, Archive, Trash2,
-  Edit, Image, FileText, QrCode, Barcode, MapPin, Tag, 
-  CheckCircle, UserCheck, Clock,
+  Edit, Image, FileText, QrCode, Barcode, MapPin, Tag,
+  CheckCircle, UserCheck, Clock, ArrowLeftRight, Calendar, XCircle,
 } from 'lucide-react';
-import { TimelineEventType } from '@prisma/client';
+import type { TimelineEventType } from '@prisma/client';
 import { cn } from '@/lib/utils/cn';
 
 type TimelineEvent = {
@@ -46,7 +46,22 @@ const EVENT_CONFIG: Record<
   DISPOSED:             { icon: Trash2,      color: 'text-gray-600',    bgColor: 'bg-gray-100 dark:bg-gray-800' },
   LOST:                 { icon: AlertTriangle, color: 'text-red-600',   bgColor: 'bg-red-100 dark:bg-red-900/30' },
   FOUND:                { icon: CheckCircle, color: 'text-emerald-600', bgColor: 'bg-emerald-100 dark:bg-emerald-900/30' },
-  TRANSFERRED:          { icon: Clock,       color: 'text-blue-600',    bgColor: 'bg-blue-100 dark:bg-blue-900/30' },
+  TRANSFERRED:          { icon: ArrowLeftRight, color: 'text-blue-600',    bgColor: 'bg-blue-100 dark:bg-blue-900/30' },
+  // Phase 4 — Allocation & Booking
+  ALLOCATION_CREATED:   { icon: UserCheck,   color: 'text-blue-600',    bgColor: 'bg-blue-100 dark:bg-blue-900/30' },
+  ALLOCATION_APPROVED:  { icon: CheckCircle, color: 'text-emerald-600', bgColor: 'bg-emerald-100 dark:bg-emerald-900/30' },
+  ALLOCATION_RETURNED:  { icon: RotateCcw,   color: 'text-emerald-600', bgColor: 'bg-emerald-100 dark:bg-emerald-900/30' },
+  ALLOCATION_CANCELLED: { icon: XCircle,     color: 'text-red-600',     bgColor: 'bg-red-100 dark:bg-red-900/30' },
+  TRANSFER_REQUESTED:   { icon: ArrowLeftRight, color: 'text-violet-600', bgColor: 'bg-violet-100 dark:bg-violet-900/30' },
+  TRANSFER_APPROVED:    { icon: CheckCircle, color: 'text-emerald-600', bgColor: 'bg-emerald-100 dark:bg-emerald-900/30' },
+  TRANSFER_REJECTED:    { icon: XCircle,     color: 'text-red-600',     bgColor: 'bg-red-100 dark:bg-red-900/30' },
+  TRANSFER_COMPLETED:   { icon: ArrowLeftRight, color: 'text-blue-600', bgColor: 'bg-blue-100 dark:bg-blue-900/30' },
+  BOOKING_CREATED:      { icon: Calendar,    color: 'text-indigo-600',  bgColor: 'bg-indigo-100 dark:bg-indigo-900/30' },
+  BOOKING_CANCELLED:    { icon: XCircle,     color: 'text-red-600',     bgColor: 'bg-red-100 dark:bg-red-900/30' },
+  BOOKING_COMPLETED:    { icon: CheckCircle, color: 'text-emerald-600', bgColor: 'bg-emerald-100 dark:bg-emerald-900/30' },
+  RETURN_INITIATED:     { icon: RotateCcw,   color: 'text-amber-600',   bgColor: 'bg-amber-100 dark:bg-amber-900/30' },
+  RETURN_APPROVED:      { icon: CheckCircle, color: 'text-emerald-600', bgColor: 'bg-emerald-100 dark:bg-emerald-900/30' },
+  RETURN_REJECTED:      { icon: XCircle,     color: 'text-red-600',     bgColor: 'bg-red-100 dark:bg-red-900/30' },
 };
 
 // Fallback for missing keys

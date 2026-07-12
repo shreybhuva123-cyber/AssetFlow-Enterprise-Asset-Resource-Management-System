@@ -6,7 +6,7 @@ import { ALLOCATION_STATUS_CONFIG, TRANSFER_STATUS_CONFIG, statusBadgeClass } fr
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CheckCircle2, XCircle, ClipboardList, ArrowRight } from '@/lib/icons';

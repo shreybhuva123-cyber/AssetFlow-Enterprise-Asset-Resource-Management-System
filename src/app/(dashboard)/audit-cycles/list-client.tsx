@@ -9,11 +9,13 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { notify } from '@/lib/toast';
 
+interface AuditCycle { id: string; name: string; status: string; startDate: string; endDate: string; _count?: { results: number } }
+
 export function AuditListClient() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [page, setPage] = useState(1);
-  const [cycles, setCycles] = useState<any[]>([]);
+  const [cycles, setCycles] = useState<AuditCycle[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 

@@ -53,7 +53,7 @@ export function FadeInUp({ children, delay = 0, ...props }: FadeInUpProps) {
         hidden: motionVariants.fadeInUp.initial,
         visible: {
           ...motionVariants.fadeInUp.animate,
-          transition: { ...motionVariants.fadeInUp.transition, delay },
+          transition: { ...motionVariants.fadeInUp.animate.transition, delay },
         },
       }}
       {...props}

@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
-import { BookingStatus, Prisma } from '@prisma/client';
+import { BookingStatus } from '@prisma/client';
 import { bookingRepository } from '@/lib/repositories/booking.repository';
-import type { CreateBookingInput, UpdateBookingInput, CancelBookingInput } from '@/validators/booking';
+import type { CreateBookingInput, UpdateBookingInput } from '@/validators/booking';
 
 export const bookingService = {
   async createBooking(orgId: string, bookedById: string, input: CreateBookingInput) {

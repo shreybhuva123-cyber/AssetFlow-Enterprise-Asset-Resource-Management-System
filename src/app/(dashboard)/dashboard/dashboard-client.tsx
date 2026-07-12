@@ -2,14 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Package, Wrench, AlertTriangle, ShieldCheck, Activity, Users } from 'lucide-react';
+import { Package, Wrench, AlertTriangle, Users } from 'lucide-react';
 import { useAuthStore } from '@/store/auth.store';
 import { notify } from '@/lib/toast';
 import { format } from 'date-fns';
 
+interface ActivityItem { id: string; actor?: { displayName: string } | null; action: string; resourceType?: string | null; description?: string | null; createdAt: string }
+interface AllocationItem { id: string; asset: { name: string }; employee: { displayName: string }; expectedReturnDate: string }
+interface DashboardData { kpis: { totalAssets: number; allocatedAssets: number; utilization: number; maintenanceAssets: number; pendingMaintenance: number; overdueReturns: number }; recentActivity: ActivityItem[]; upcomingReturns: AllocationItem[] }
+
 export function DashboardClient() {
   const { profile } = useAuthStore();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,9 +26,9 @@ export function DashboardClient() {
         
         const res = await fetch(`/api/dashboard/kpis?${params}`);
         if (!res.ok) throw new Error('Failed to load dashboard data');
-        const json = await res.json();
+        const json = await res.json() as DashboardData;
         setData(json);
-      } catch (err) {
+      } catch {
         notify.error('Error loading dashboard');
       } finally {
         setLoading(false);
@@ -102,11 +106,11 @@ export function DashboardClient() {
           </CardHeader>
           <CardContent>
             <div className="space-y-8">
-              {data.recentActivity.map((activity: any) => (
+              {data.recentActivity.map((activity) => (
                 <div key={activity.id} className="flex items-center">
                   <div className="space-y-1">
                     <p className="text-sm font-medium leading-none">
-                      {activity.actor?.displayName || 'System'} {activity.action.toLowerCase()} {activity.resourceType?.replace('_', ' ').toLowerCase()}
+                      {activity.actor?.displayName ?? 'System'} {activity.action.toLowerCase()} {activity.resourceType?.replace('_', ' ').toLowerCase()}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {activity.description}
@@ -132,7 +136,7 @@ export function DashboardClient() {
           </CardHeader>
           <CardContent>
             <div className="space-y-8">
-              {data.upcomingReturns.map((allocation: any) => (
+              {data.upcomingReturns.map((allocation) => (
                 <div key={allocation.id} className="flex items-center">
                   <div className="ml-4 space-y-1">
                     <p className="text-sm font-medium leading-none">{allocation.asset.name}</p>

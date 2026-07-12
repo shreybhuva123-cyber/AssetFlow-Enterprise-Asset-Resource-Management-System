@@ -13,8 +13,8 @@ import { RoleDialog } from '@/features/employees/components/role-dialog';
 import { useEmployees } from '@/features/employees/hooks/use-employees';
 import { useAuthStore } from '@/store/auth.store';
 import { useDebounce } from '@/hooks/use-debounce';
-import { isAdmin, isAtLeastRole } from '@/lib/auth/rbac';
-import { UserRole } from '@/types/auth';
+import { isAdmin } from '@/lib/auth/rbac';
+import { USER_ROLE_LABELS } from '@/types/auth';
 import {
   Select,
   SelectContent,
@@ -22,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { USER_ROLE_LABELS } from '@/types/auth';
 
 export default function EmployeesPage() {
   const profile = useAuthStore((s) => s.profile);
@@ -48,7 +47,6 @@ export default function EmployeesPage() {
   const total = data?.total ?? 0;
 
   const canManage = !!profile && isAdmin(profile);
-  const canView = !!profile && isAtLeastRole(profile, UserRole.ASSET_MANAGER);
 
   return (
     <div className="space-y-6">

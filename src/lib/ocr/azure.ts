@@ -1,8 +1,8 @@
-import { OCRProvider, ExtractedDocument } from './provider';
+import type { OCRProvider, ExtractedDocument } from './provider';
 
 // This is a placeholder for Azure Form Recognizer or AWS Textract
 export class AzureOCRProvider implements OCRProvider {
-  async processInvoice(fileBuffer: Buffer, mimeType: string): Promise<ExtractedDocument> {
+  async processInvoice(_fileBuffer: Buffer, _mimeType: string): Promise<ExtractedDocument> {
     // In a real implementation, we would send this to Azure Form Recognizer API
     // using @azure/ai-form-recognizer
     
@@ -19,7 +19,7 @@ export class AzureOCRProvider implements OCRProvider {
     };
   }
 
-  async processWarranty(fileBuffer: Buffer, mimeType: string): Promise<ExtractedDocument> {
+  async processWarranty(_fileBuffer: Buffer, _mimeType: string): Promise<ExtractedDocument> {
     await new Promise(res => setTimeout(res, 1000));
     return {
       warrantyExpiry: '2026-11-15',

@@ -9,7 +9,7 @@ export function isAtLeastRole(profile: UserProfile, minimum: UserRole): boolean 
   return ROLE_HIERARCHY[profile.role] >= ROLE_HIERARCHY[minimum];
 }
 
-export function canPromoteUser(actor: UserProfile, targetCurrentRole: UserRole, targetNewRole: UserRole): boolean {
+export function canPromoteUser(actor: UserProfile, _targetCurrentRole: UserRole, targetNewRole: UserRole): boolean {
   // Only ADMIN can promote
   if (!isAdmin(actor)) return false;
   // Cannot promote to ADMIN via the user management endpoint (must be done directly)
@@ -17,7 +17,7 @@ export function canPromoteUser(actor: UserProfile, targetCurrentRole: UserRole, 
   return true;
 }
 
-export function canDemoteUser(actor: UserProfile, targetCurrentRole: UserRole): boolean {
+export function canDemoteUser(actor: UserProfile, _targetCurrentRole: UserRole): boolean {
   return isAdmin(actor);
 }
 

@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
-import { AllocationStatus, Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
+import { AllocationStatus } from '@prisma/client';
 
 const allocationSelect = {
   id: true, orgId: true, assetId: true, employeeId: true, departmentId: true,

@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+
 import {
   ChevronLeft, Edit, Trash2, QrCode, Clock, Image as ImageIcon, FileText,
   MoreVertical, ArrowRight, Package, Building, User, MapPin,
@@ -24,7 +24,8 @@ import { AssetTimeline } from '@/features/assets/components/asset-timeline';
 import { AssetGallery, type AssetImageItem } from '@/features/assets/components/asset-gallery';
 import { AssetDocuments, type AssetDocumentItem } from '@/features/assets/components/asset-documents';
 import { AssetQRCard } from '@/features/assets/components/asset-qr-card';
-import { AssetStatus, ASSET_STATUS_LABELS } from '@/constants/status';
+import type { AssetStatus} from '@/constants/status';
+import { ASSET_STATUS_LABELS } from '@/constants/status';
 import { DASHBOARD_ROUTES } from '@/constants/routes';
 import { notify } from '@/lib/toast';
 import { cn } from '@/lib/utils/cn';

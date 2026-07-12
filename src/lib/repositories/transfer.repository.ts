@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { TransferStatus, Prisma } from '@prisma/client';
+import type { TransferStatus, Prisma } from '@prisma/client';
 
 const transferSelect = {
   id: true, orgId: true, assetId: true, requestedById: true, fromEmployeeId: true,

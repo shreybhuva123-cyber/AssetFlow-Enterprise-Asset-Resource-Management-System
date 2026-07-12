@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { MaintenanceStatus, Prisma } from '@prisma/client';
+import type { MaintenanceStatus, Prisma } from '@prisma/client';
 
 const maintenanceSelect = {
   id: true, orgId: true, assetId: true, requestedById: true, departmentId: true,
@@ -26,7 +26,7 @@ export const maintenanceRepository = {
     const where: Prisma.MaintenanceRequestWhereInput = {
       orgId, deletedAt: null,
       ...(status && { status }),
-      ...(priority && { priority: priority as any }),
+      ...(priority && { priority: priority as Prisma.EnumMaintenancePriorityFilter }),
       ...(technicianId && { technicianId }),
       ...(assetId && { assetId }),
       ...(search && {

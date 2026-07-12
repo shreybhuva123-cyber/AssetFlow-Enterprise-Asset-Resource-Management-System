@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
-import { motionVariants } from '@/styles/tokens/motion';
+
 import { usePrefersReducedMotion } from '@/hooks/use-media-query';
 
 type SlideDirection = 'left' | 'right' | 'up' | 'down';

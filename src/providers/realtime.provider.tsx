@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import type { REALTIME_SUBSCRIBE_STATES } from '@supabase/supabase-js';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/store/auth.store';
 import { useNotificationsStore } from '@/store/notifications.store';
@@ -39,7 +40,7 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
           });
         },
       )
-      .subscribe((status) => {
+      .subscribe((status: `${REALTIME_SUBSCRIBE_STATES}`) => {
         logger.info(`Realtime channel ${channelName}: ${status}`);
       });
 

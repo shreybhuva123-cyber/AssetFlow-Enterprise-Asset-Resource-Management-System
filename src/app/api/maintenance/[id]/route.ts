@@ -5,14 +5,17 @@ import { updateMaintenanceSchema, approveMaintenanceSchema } from '@/validators/
 import { prisma } from '@/lib/prisma';
 import { ZodError } from 'zod';
 
-export async function GET(_req: Request, { params }: { params: { id: string } }) {
+type RouteContext = { params: Promise<{ id: string }> };
+
+export async function GET(_req: Request, context: RouteContext) {
   try {
     const session = await getSession();
     if (!session?.profile.orgId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const data = await maintenanceService.findById(params.id, session.profile.orgId);
+    const { id } = await context.params;
+    const data = await maintenanceService.findById(id, session.profile.orgId);
     if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
     return NextResponse.json(data);
@@ -22,27 +25,28 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   }
 }
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, context: RouteContext) {
   try {
     const session = await getSession();
     if (!session?.profile.orgId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await context.params;
     const { searchParams } = new URL(req.url);
     const action = searchParams.get('action');
     const json = await req.json();
 
     if (action === 'approve') {
       const data = approveMaintenanceSchema.parse(json);
-      const res = await maintenanceService.approve(params.id, session.profile.orgId, session.profile.id, data);
+      const res = await maintenanceService.approve(id, session.profile.orgId, session.profile.id, data);
       return NextResponse.json(res);
     }
 
     // Standard update
     const data = updateMaintenanceSchema.parse(json);
     const res = await prisma.maintenanceRequest.update({
-      where: { id: params.id, orgId: session.profile.orgId },
+      where: { id, orgId: session.profile.orgId },
       data,
     });
     return NextResponse.json(res);

@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Search, Loader2, Package, Users, Building2, X } from 'lucide-react';
+import { Search, Loader2, Package, Users, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export function GlobalSearch() {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<{ assets: any[]; employees: any[]; departments: any[] } | null>(null);
+  const [results, setResults] = useState<{ assets: { id: string; name: string; assetTag: string; status: string }[]; employees: { id: string; displayName: string; email: string }[]; departments: { id: string; name: string }[] } | null>(null);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -99,7 +99,7 @@ export function GlobalSearch() {
 
             {results.assets.length === 0 && results.employees.length === 0 && results.departments.length === 0 && (
               <div className="p-4 text-center text-sm text-muted-foreground">
-                No results found for "{query}"
+                No results found for &quot;{query}&quot;
               </div>
             )}
           </div>

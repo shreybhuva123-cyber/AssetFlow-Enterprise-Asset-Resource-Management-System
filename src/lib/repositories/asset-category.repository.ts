@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import type { CreateAssetCategoryInput, UpdateAssetCategoryInput, AssetCategoryFiltersInput } from '@/validators/asset-category';
 import { buildPaginatedResult } from '@/lib/utils/pagination';
-import type { DynamicField } from '@/types/asset-category';
 
 export async function getAssetCategoriesByOrg(orgId: string, filters: AssetCategoryFiltersInput) {
   const where = {
@@ -65,7 +64,7 @@ export async function updateAssetCategory(id: string, orgId: string, data: Updat
   });
 }
 
-export async function softDeleteAssetCategory(id: string, orgId: string) {
+export async function softDeleteAssetCategory(id: string, _orgId: string) {
   return prisma.assetCategory.update({
     where: { id },
     data: { deletedAt: new Date() },

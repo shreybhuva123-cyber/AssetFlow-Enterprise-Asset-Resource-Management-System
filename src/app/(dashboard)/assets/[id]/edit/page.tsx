@@ -8,7 +8,7 @@ import { getAllCategoriesForOrg } from '@/lib/repositories/asset-category.reposi
 import { prisma } from '@/lib/prisma';
 import { AssetForm } from '@/features/assets/components/asset-form';
 import { UserRole } from '@/types/auth';
-import { AssetStatus, AssetCondition } from '@/constants/status';
+import type { AssetStatus, AssetCondition } from '@/constants/status';
 import { DASHBOARD_ROUTES } from '@/constants/routes';
 
 interface Props { params: Promise<{ id: string }> }

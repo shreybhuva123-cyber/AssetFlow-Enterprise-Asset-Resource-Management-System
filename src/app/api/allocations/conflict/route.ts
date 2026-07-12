@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth/get-session';
 import { allocationRepository } from '@/lib/repositories/allocation.repository';
 
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
       allocation: { id: active.id, allocationDate: active.allocationDate, expectedReturnDate: active.expectedReturnDate, status: active.status },
       asset: { assetTag: active.asset.assetTag, name: active.asset.name },
     });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: 'Failed to check conflict' }, { status: 500 });
   }
 }

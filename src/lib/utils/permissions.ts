@@ -1,5 +1,6 @@
 import type { UserRole } from '@/types/auth';
-import { Permission, ROLE_PERMISSIONS } from '@/constants/permissions';
+import type { Permission} from '@/constants/permissions';
+import { ROLE_PERMISSIONS } from '@/constants/permissions';
 import { ROLE_WEIGHT } from '@/constants/roles';
 
 export function getUserPermissions(role: UserRole): Permission[] {

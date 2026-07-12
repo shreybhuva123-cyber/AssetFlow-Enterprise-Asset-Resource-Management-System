@@ -17,7 +17,7 @@ export function useRegister() {
       });
 
       const json = await res.json();
-      if (!res.ok) throw new Error(json.message ?? 'Registration failed');
+      if (!res.ok) throw new Error(json.error?.message ?? json.message ?? 'Registration failed');
       return json.data;
     },
     onSuccess: () => {

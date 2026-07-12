@@ -37,7 +37,7 @@ async function request<T>(
         Accept: 'application/json',
         ...headers,
       },
-      body: body !== undefined ? JSON.stringify(body) : undefined,
+      body: body !== undefined ? JSON.stringify(body) : (undefined as BodyInit | undefined),
       signal: controller.signal,
     });
 
@@ -46,7 +46,7 @@ async function request<T>(
 
     if (!response.ok) {
       logger.warn(`HTTP ${response.status} from ${method} ${url}`);
-      throw new ExternalServiceError(`HTTP ${response.status}`, {
+      throw new ExternalServiceError(url, `HTTP ${response.status}`, {
         status: response.status,
         url,
         body: data,
@@ -70,15 +70,15 @@ export const apiClient = {
   },
 
   post<T>(path: string, body: unknown, options?: ApiRequestOptions): Promise<ApiResponse<T>> {
-    return request<ApiResponse<T>>('POST', path, { ...options, body });
+    return request<ApiResponse<T>>('POST', path, { ...options, body: body as ApiRequestOptions['body'] });
   },
 
   put<T>(path: string, body: unknown, options?: ApiRequestOptions): Promise<ApiResponse<T>> {
-    return request<ApiResponse<T>>('PUT', path, { ...options, body });
+    return request<ApiResponse<T>>('PUT', path, { ...options, body: body as ApiRequestOptions['body'] });
   },
 
   patch<T>(path: string, body: unknown, options?: ApiRequestOptions): Promise<ApiResponse<T>> {
-    return request<ApiResponse<T>>('PATCH', path, { ...options, body });
+    return request<ApiResponse<T>>('PATCH', path, { ...options, body: body as ApiRequestOptions['body'] });
   },
 
   delete<T = void>(path: string, options?: ApiRequestOptions): Promise<ApiResponse<T>> {
