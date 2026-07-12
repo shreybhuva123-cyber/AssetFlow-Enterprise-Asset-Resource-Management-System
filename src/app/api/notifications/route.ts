@@ -1,34 +1,39 @@
-import { type NextRequest } from 'next/server';
-import { withAuth } from '@/lib/api/with-auth';
-import { prisma } from '@/lib/prisma';
-import { successResponse, noContentResponse } from '@/lib/utils/api-response';
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from '@/lib/auth/get-session';
+import { notificationService } from '@/lib/services/notification.service';
 
-export const GET = withAuth(async (req: NextRequest, ctx) => {
-  const limit = Number(req.nextUrl.searchParams.get('limit') ?? '20');
-  const unreadOnly = req.nextUrl.searchParams.get('unreadOnly') === 'true';
+export async function GET(req: NextRequest) {
+  const session = await getServerSession();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const userId = session.profile.id; const orgId = session.profile.orgId!;
+  const isRead = req.nextUrl.searchParams.get('isRead');
+  try {
+    const notifications = await notificationService.getForUser(
+      userId, orgId,
+      isRead === 'true' ? true : isRead === 'false' ? false : undefined
+    );
+    return NextResponse.json({ data: notifications });
+  } catch (e) {
+    return NextResponse.json({ error: 'Failed to fetch notifications' }, { status: 500 });
+  }
+}
 
-  const notifications = await prisma.notification.findMany({
-    where: {
-      userId: ctx.userId,
-      ...(unreadOnly && { isRead: false }),
-    },
-    orderBy: { createdAt: 'desc' },
-    take: Math.min(limit, 50),
-  });
-
-  const unreadCount = await prisma.notification.count({
-    where: { userId: ctx.userId, isRead: false },
-  });
-
-  return successResponse({ notifications, unreadCount });
-});
-
-// Mark all as read
-export const POST = withAuth(async (_req, ctx) => {
-  await prisma.notification.updateMany({
-    where: { userId: ctx.userId, isRead: false },
-    data: { isRead: true, readAt: new Date() },
-  });
-
-  return noContentResponse();
-});
+export async function PATCH(req: NextRequest) {
+  const session = await getServerSession();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const userId = session.profile.id; const orgId = session.profile.orgId!;
+  const body = await req.json();
+  try {
+    if (body.all) {
+      await notificationService.markAllRead(userId, orgId);
+      return NextResponse.json({ message: 'All notifications marked as read' });
+    }
+    if (Array.isArray(body.ids)) {
+      for (const id of body.ids) await notificationService.markRead(id, userId);
+      return NextResponse.json({ message: 'Notifications marked as read' });
+    }
+    return NextResponse.json({ error: 'Provide ids array or all:true' }, { status: 400 });
+  } catch (e) {
+    return NextResponse.json({ error: 'Failed to update notifications' }, { status: 500 });
+  }
+}

@@ -100,3 +100,19 @@ export function KpiCard({
     </Card>
   );
 }
+
+export function KpiCardSkeleton({ className }: { className?: string }) {
+  return (
+    <Card className={cn('animate-pulse', className)}>
+      <CardContent className="p-6 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="h-4 w-24 bg-muted rounded" />
+          <div className="h-8 w-8 bg-muted rounded-lg" />
+        </div>
+        <div className="h-8 w-20 bg-muted rounded" />
+        <div className="h-3 w-32 bg-muted rounded" />
+      </CardContent>
+    </Card>
+  );
+}
+

@@ -1,4 +1,4 @@
-import type { UserRole } from '@/types/auth';
+import { UserRole } from '@/types/auth';
 
 export interface RouteConfig {
   path: string;
@@ -38,63 +38,56 @@ export const protectedRoutes: RouteConfig[] = [
     path: '/assets',
     label: 'Assets',
     icon: 'Package',
-    requiredRoles: ['VIEWER', 'TECHNICIAN', 'ASSET_MANAGER', 'ORG_ADMIN', 'SUPER_ADMIN'],
+    requiredRoles: [UserRole.EMPLOYEE, UserRole.DEPARTMENT_HEAD, UserRole.ASSET_MANAGER, UserRole.ADMIN],
     showInNav: true,
   },
   {
     path: '/maintenance',
     label: 'Maintenance',
     icon: 'Wrench',
-    requiredRoles: ['TECHNICIAN', 'ASSET_MANAGER', 'ORG_ADMIN', 'SUPER_ADMIN'],
+    requiredRoles: [UserRole.DEPARTMENT_HEAD, UserRole.ASSET_MANAGER, UserRole.ADMIN],
     showInNav: true,
   },
   {
     path: '/procurement',
     label: 'Procurement',
     icon: 'ShoppingCart',
-    requiredRoles: ['ASSET_MANAGER', 'ORG_ADMIN', 'SUPER_ADMIN'],
+    requiredRoles: [UserRole.ASSET_MANAGER, UserRole.ADMIN],
     showInNav: true,
   },
   {
     path: '/depreciation',
     label: 'Depreciation',
     icon: 'TrendingDown',
-    requiredRoles: ['ASSET_MANAGER', 'ORG_ADMIN', 'SUPER_ADMIN'],
+    requiredRoles: [UserRole.ASSET_MANAGER, UserRole.ADMIN],
     showInNav: true,
   },
   {
     path: '/locations',
     label: 'Locations',
     icon: 'MapPin',
-    requiredRoles: ['VIEWER', 'TECHNICIAN', 'ASSET_MANAGER', 'ORG_ADMIN', 'SUPER_ADMIN'],
+    requiredRoles: [UserRole.EMPLOYEE, UserRole.DEPARTMENT_HEAD, UserRole.ASSET_MANAGER, UserRole.ADMIN],
     showInNav: true,
   },
   {
     path: '/reports',
     label: 'Reports',
     icon: 'BarChart3',
-    requiredRoles: ['ASSET_MANAGER', 'ORG_ADMIN', 'SUPER_ADMIN'],
+    requiredRoles: [UserRole.ASSET_MANAGER, UserRole.ADMIN],
     showInNav: true,
   },
   {
     path: '/audit',
     label: 'Audit Log',
     icon: 'Shield',
-    requiredRoles: ['ORG_ADMIN', 'SUPER_ADMIN'],
+    requiredRoles: [UserRole.ADMIN],
     showInNav: true,
   },
   {
     path: '/settings',
     label: 'Settings',
     icon: 'Settings',
-    requiredRoles: ['ORG_ADMIN', 'SUPER_ADMIN'],
-    showInNav: true,
-  },
-  {
-    path: '/admin',
-    label: 'Admin',
-    icon: 'Crown',
-    requiredRoles: ['SUPER_ADMIN'],
+    requiredRoles: [UserRole.ADMIN],
     showInNav: true,
   },
 ];

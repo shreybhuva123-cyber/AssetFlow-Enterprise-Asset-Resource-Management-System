@@ -11,11 +11,12 @@ export const AUTH_ROUTES = {
 export const DASHBOARD_ROUTES = {
   HOME: '/dashboard',
   ASSETS: {
-    LIST: '/dashboard/assets',
-    NEW: '/dashboard/assets/new',
-    DETAIL: (id: string) => `/dashboard/assets/${id}` as const,
-    EDIT: (id: string) => `/dashboard/assets/${id}/edit` as const,
-    IMPORT: '/dashboard/assets/import',
+    LIST: '/assets',
+    NEW: '/assets/new',
+    DETAIL: (id: string) => `/assets/${id}` as const,
+    EDIT: (id: string) => `/assets/${id}/edit` as const,
+    OVERVIEW: '/assets/overview',
+    IMPORT: '/assets/import',
   },
   MAINTENANCE: {
     LIST: '/dashboard/maintenance',

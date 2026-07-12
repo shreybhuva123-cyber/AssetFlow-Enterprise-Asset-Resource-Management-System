@@ -16,6 +16,10 @@ import {
   Crown,
   ChevronLeft,
   ChevronRight,
+  Users,
+  ArrowRightLeft,
+  CalendarDays,
+  ClipboardCheck,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils/cn';
@@ -27,15 +31,18 @@ import type { UserRole } from '@/types/auth';
 
 const NAV_ITEMS = [
   { path: '/dashboard',   label: 'Dashboard',   icon: LayoutDashboard, permission: null },
-  { path: '/assets',      label: 'Assets',      icon: Package,         permission: Permission.ASSET_VIEW },
-  { path: '/maintenance', label: 'Maintenance',  icon: Wrench,          permission: Permission.MAINTENANCE_VIEW },
-  { path: '/procurement', label: 'Procurement',  icon: ShoppingCart,    permission: Permission.PROCUREMENT_VIEW },
-  { path: '/depreciation',label: 'Depreciation', icon: TrendingDown,    permission: Permission.DEPRECIATION_VIEW },
-  { path: '/locations',   label: 'Locations',    icon: MapPin,          permission: Permission.LOCATION_VIEW },
-  { path: '/reports',     label: 'Reports',      icon: BarChart3,       permission: Permission.REPORT_VIEW },
-  { path: '/audit',       label: 'Audit Log',    icon: Shield,          permission: Permission.AUDIT_VIEW },
-  { path: '/settings',    label: 'Settings',     icon: Settings,        permission: Permission.SETTINGS_VIEW },
-  { path: '/admin',       label: 'Admin',        icon: Crown,           permission: Permission.SUPER_ADMIN_ACCESS },
+  { path: '/assets',      label: 'Assets',      icon: Package,         permission: Permission.ASSETS_READ },
+  { path: '/allocations', label: 'Allocations', icon: Users,           permission: Permission.ASSETS_READ },
+  { path: '/transfers',   label: 'Transfers',   icon: ArrowRightLeft,  permission: Permission.ASSETS_READ },
+  { path: '/bookings',    label: 'Bookings',    icon: CalendarDays,    permission: Permission.ASSETS_READ },
+  { path: '/approvals',   label: 'Approvals',   icon: ClipboardCheck,  permission: Permission.ASSETS_READ },
+  { path: '/maintenance', label: 'Maintenance', icon: Wrench,          permission: Permission.MAINTENANCE_READ },
+  { path: '/procurement', label: 'Procurement', icon: ShoppingCart,    permission: Permission.PROCUREMENT_READ },
+  { path: '/depreciation',label: 'Depreciation',icon: TrendingDown,    permission: Permission.DEPRECIATION_READ },
+  { path: '/locations',   label: 'Locations',   icon: MapPin,          permission: Permission.LOCATIONS_READ },
+  { path: '/reports',     label: 'Reports',     icon: BarChart3,       permission: Permission.REPORTS_VIEW },
+  { path: '/audit',       label: 'Audit Log',   icon: Shield,          permission: Permission.AUDIT_READ },
+  { path: '/settings',    label: 'Settings',    icon: Settings,        permission: Permission.SETTINGS_READ },
 ] as const;
 
 function NavItem({

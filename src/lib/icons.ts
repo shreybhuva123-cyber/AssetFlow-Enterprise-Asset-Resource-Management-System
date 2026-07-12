@@ -99,7 +99,7 @@ export {
   Wrench,
   WrenchIcon,
   Hammer,
-  Tool,
+  // Tool removed — use Wrench instead
   Settings,
   Settings2,
   Cog,
@@ -165,7 +165,7 @@ export {
   XOctagon,
   Loader2,
   Loader,
-  Spinner,
+  // Spinner removed — use Loader2 instead
 
   // ── Search & Filter ─────────────────────────────────────────────
   Search,

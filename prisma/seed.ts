@@ -8,20 +8,18 @@ const SEED = {
     techcorp: '10000000-0000-0000-0000-000000000002',
   },
   profiles: {
-    superAdmin: '20000000-0000-0000-0000-000000000001',
-    orgAdmin: '20000000-0000-0000-0000-000000000002',
-    assetManager: '20000000-0000-0000-0000-000000000003',
-    technician: '20000000-0000-0000-0000-000000000004',
-    viewer: '20000000-0000-0000-0000-000000000005',
+    admin: '20000000-0000-0000-0000-000000000001',
+    assetManager: '20000000-0000-0000-0000-000000000002',
+    deptHead: '20000000-0000-0000-0000-000000000003',
+    employee1: '20000000-0000-0000-0000-000000000004',
+    employee2: '20000000-0000-0000-0000-000000000005',
   },
-  // Note: userId values must match real Supabase auth.users entries in production.
-  // These are placeholder UUIDs for local/demo seeding only.
   authUserIds: {
-    superAdmin: '00000000-0000-0000-0000-000000000001',
-    orgAdmin: '00000000-0000-0000-0000-000000000002',
-    assetManager: '00000000-0000-0000-0000-000000000003',
-    technician: '00000000-0000-0000-0000-000000000004',
-    viewer: '00000000-0000-0000-0000-000000000005',
+    admin: '00000000-0000-0000-0000-000000000001',
+    assetManager: '00000000-0000-0000-0000-000000000002',
+    deptHead: '00000000-0000-0000-0000-000000000003',
+    employee1: '00000000-0000-0000-0000-000000000004',
+    employee2: '00000000-0000-0000-0000-000000000005',
   },
 };
 
@@ -68,49 +66,49 @@ async function seedProfiles() {
   console.log('  → Profiles');
   const profiles = [
     {
-      id: SEED.profiles.superAdmin,
-      userId: SEED.authUserIds.superAdmin,
-      orgId: null,
+      id: SEED.profiles.admin,
+      userId: SEED.authUserIds.admin,
+      orgId: SEED.orgs.acme,
       firstName: 'System',
       lastName: 'Administrator',
       displayName: 'System Administrator',
-      role: UserRole.SUPER_ADMIN,
-    },
-    {
-      id: SEED.profiles.orgAdmin,
-      userId: SEED.authUserIds.orgAdmin,
-      orgId: SEED.orgs.acme,
-      firstName: 'Sarah',
-      lastName: 'Chen',
-      displayName: 'Sarah Chen',
-      role: UserRole.ORG_ADMIN,
+      role: UserRole.ADMIN,
     },
     {
       id: SEED.profiles.assetManager,
       userId: SEED.authUserIds.assetManager,
       orgId: SEED.orgs.acme,
-      firstName: 'Marcus',
-      lastName: 'Johnson',
-      displayName: 'Marcus Johnson',
+      firstName: 'Sarah',
+      lastName: 'Chen',
+      displayName: 'Sarah Chen',
       role: UserRole.ASSET_MANAGER,
     },
     {
-      id: SEED.profiles.technician,
-      userId: SEED.authUserIds.technician,
+      id: SEED.profiles.deptHead,
+      userId: SEED.authUserIds.deptHead,
+      orgId: SEED.orgs.acme,
+      firstName: 'Marcus',
+      lastName: 'Johnson',
+      displayName: 'Marcus Johnson',
+      role: UserRole.DEPARTMENT_HEAD,
+    },
+    {
+      id: SEED.profiles.employee1,
+      userId: SEED.authUserIds.employee1,
       orgId: SEED.orgs.acme,
       firstName: 'Priya',
       lastName: 'Patel',
       displayName: 'Priya Patel',
-      role: UserRole.TECHNICIAN,
+      role: UserRole.EMPLOYEE,
     },
     {
-      id: SEED.profiles.viewer,
-      userId: SEED.authUserIds.viewer,
+      id: SEED.profiles.employee2,
+      userId: SEED.authUserIds.employee2,
       orgId: SEED.orgs.acme,
       firstName: 'Alex',
       lastName: 'Rivera',
       displayName: 'Alex Rivera',
-      role: UserRole.VIEWER,
+      role: UserRole.EMPLOYEE,
     },
   ];
 
@@ -126,10 +124,11 @@ async function seedProfiles() {
 async function seedOrgMembers() {
   console.log('  → Org members');
   const members = [
-    { orgId: SEED.orgs.acme, profileId: SEED.profiles.orgAdmin, role: UserRole.ORG_ADMIN },
+    { orgId: SEED.orgs.acme, profileId: SEED.profiles.admin,        role: UserRole.ADMIN },
     { orgId: SEED.orgs.acme, profileId: SEED.profiles.assetManager, role: UserRole.ASSET_MANAGER },
-    { orgId: SEED.orgs.acme, profileId: SEED.profiles.technician, role: UserRole.TECHNICIAN },
-    { orgId: SEED.orgs.acme, profileId: SEED.profiles.viewer, role: UserRole.VIEWER },
+    { orgId: SEED.orgs.acme, profileId: SEED.profiles.deptHead,     role: UserRole.DEPARTMENT_HEAD },
+    { orgId: SEED.orgs.acme, profileId: SEED.profiles.employee1,    role: UserRole.EMPLOYEE },
+    { orgId: SEED.orgs.acme, profileId: SEED.profiles.employee2,    role: UserRole.EMPLOYEE },
   ];
 
   for (const member of members) {
@@ -144,11 +143,10 @@ async function seedOrgMembers() {
 async function seedSystemRoles() {
   console.log('  → System roles');
   const roles = [
-    { name: 'super_admin', displayName: 'Super Administrator', description: 'Full platform access', isSystem: true },
-    { name: 'org_admin', displayName: 'Organization Administrator', description: 'Full access within org', isSystem: true },
-    { name: 'asset_manager', displayName: 'Asset Manager', description: 'Manage assets and maintenance', isSystem: true },
-    { name: 'technician', displayName: 'Technician', description: 'Execute maintenance tasks', isSystem: true },
-    { name: 'viewer', displayName: 'Viewer', description: 'Read-only access', isSystem: true },
+    { name: 'admin',            displayName: 'Administrator',    description: 'Full platform access',             isSystem: true },
+    { name: 'asset_manager',   displayName: 'Asset Manager',     description: 'Manage assets and maintenance',    isSystem: true },
+    { name: 'department_head', displayName: 'Department Head',   description: 'Manage department resources',      isSystem: true },
+    { name: 'employee',        displayName: 'Employee',          description: 'View and request own resources',   isSystem: true },
   ];
 
   for (const role of roles) {
@@ -164,10 +162,10 @@ async function seedAuditLog() {
   const entries = [
     {
       orgId: SEED.orgs.acme,
-      userId: SEED.profiles.orgAdmin,
+      userId: SEED.profiles.admin,
       action: AuditAction.LOGIN,
       resource: AuditResource.USER,
-      resourceId: SEED.profiles.orgAdmin,
+      resourceId: SEED.profiles.admin,
       metadata: { method: 'email', ip: '192.168.1.1' },
     },
     {
