@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { createClient } from '@/supabase/client';
+import { getSupabaseClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/store/auth.store';
 import { useNotificationsStore } from '@/store/notifications.store';
 import { createLogger } from '@/lib/logger/index';
@@ -11,8 +11,8 @@ const logger = createLogger('RealtimeProvider');
 export function RealtimeProvider({ children }: { children: React.ReactNode }) {
   const { profile } = useAuthStore();
   const { addNotification } = useNotificationsStore();
-  const channelRef = useRef<ReturnType<ReturnType<typeof createClient>['channel']> | null>(null);
-  const supabase = createClient();
+  const supabase = getSupabaseClient();
+  const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
   useEffect(() => {
     if (!profile?.orgId) return;

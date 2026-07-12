@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import { createClient } from '@/supabase/client';
+import { getSupabaseClient as createClient } from '@/lib/supabase/client';
 import { useAuthStore } from '@/store/auth.store';
 import type { User, UserProfile } from '@/types/auth';
 import { createLogger } from '@/lib/logger/index';

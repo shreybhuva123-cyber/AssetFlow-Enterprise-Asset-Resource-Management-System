@@ -16,12 +16,12 @@ datasource db {
 // ENUMERATIONS
 // ============================================================
 
+// Roles exactly as defined in the hackathon problem statement
 enum UserRole {
-  SUPER_ADMIN
-  ORG_ADMIN
+  ADMIN
   ASSET_MANAGER
-  TECHNICIAN
-  VIEWER
+  DEPARTMENT_HEAD
+  EMPLOYEE
 
   @@map("user_role")
 }
@@ -47,12 +47,7 @@ enum AuditAction {
   LOGOUT
   LOGIN_FAILED
   PASSWORD_RESET
-  PERMISSION_CHANGE
   ROLE_CHANGE
-  APPROVE
-  REJECT
-  ASSIGN
-  UNASSIGN
 
   @@map("audit_action")
 }
@@ -60,10 +55,11 @@ enum AuditAction {
 enum AuditResource {
   USER
   ORGANIZATION
+  DEPARTMENT
+  ASSET_CATEGORY
   ASSET
   MAINTENANCE_ORDER
   PROCUREMENT_REQUEST
-  DEPRECIATION_ENTRY
   LOCATION
   DOCUMENT
   REPORT
@@ -77,22 +73,23 @@ enum AuditResource {
 // ============================================================
 
 model Organization {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name      String    @db.VarChar(255)
-  slug      String    @unique @db.VarChar(100)
-  logoUrl   String?   @map("logo_url") @db.VarChar(512)
-  plan      OrgPlan   @default(FREE)
-  isActive  Boolean   @default(true) @map("is_active")
-  settings  Json      @default("{}")
-  metadata  Json      @default("{}")
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String   @db.VarChar(255)
+  slug      String   @unique @db.VarChar(100)
+  logoUrl   String?  @map("logo_url") @db.VarChar(512)
+  plan      OrgPlan  @default(FREE)
+  isActive  Boolean  @default(true) @map("is_active")
+  settings  Json     @default("{}")
+  metadata  Json     @default("{}")
 
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
 
-  members   OrgMember[]
-  profiles  Profile[]
-  auditLogs AuditLog[]
+  profiles        Profile[]
+  departments     Department[]
+  assetCategories AssetCategory[]
+  auditLogs       AuditLog[]
 
   @@index([slug])
   @@index([isActive])
@@ -105,114 +102,100 @@ model Organization {
 // ============================================================
 
 model Profile {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId      String    @unique @map("user_id") @db.Uuid
-  orgId       String?   @map("org_id") @db.Uuid
-  firstName   String    @map("first_name") @db.VarChar(100)
-  lastName    String    @map("last_name") @db.VarChar(100)
-  displayName String    @map("display_name") @db.VarChar(200)
-  avatarUrl   String?   @map("avatar_url") @db.VarChar(512)
-  phone       String?   @db.VarChar(50)
-  timezone    String    @default("UTC") @db.VarChar(50)
-  locale      String    @default("en") @db.VarChar(10)
-  role        UserRole  @default(VIEWER)
-  isActive    Boolean   @default(true) @map("is_active")
-  preferences Json      @default("{}")
-  lastSeenAt  DateTime? @map("last_seen_at") @db.Timestamptz
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String    @unique @map("user_id") @db.Uuid
+  orgId        String?   @map("org_id") @db.Uuid
+  departmentId String?   @map("department_id") @db.Uuid
+  firstName    String    @map("first_name") @db.VarChar(100)
+  lastName     String    @map("last_name") @db.VarChar(100)
+  displayName  String    @map("display_name") @db.VarChar(200)
+  avatarUrl    String?   @map("avatar_url") @db.VarChar(512)
+  phone        String?   @db.VarChar(50)
+  jobTitle     String?   @map("job_title") @db.VarChar(150)
+  timezone     String    @default("UTC") @db.VarChar(50)
+  locale       String    @default("en") @db.VarChar(10)
+  role         UserRole  @default(EMPLOYEE)
+  isActive     Boolean   @default(true) @map("is_active")
+  preferences  Json      @default("{}")
+  lastSeenAt   DateTime? @map("last_seen_at") @db.Timestamptz
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  org         Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
-  memberships OrgMember[]
-  auditLogs   AuditLog[]
+  org               Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  department        Department?   @relation("DepartmentMembers", fields: [departmentId], references: [id], onDelete: SetNull)
+  headOfDepartments Department[]  @relation("DepartmentHead")
+  auditLogsAsActor  AuditLog[]    @relation("AuditLogActor")
+  auditLogsAsTarget AuditLog[]    @relation("AuditLogTarget")
 
   @@index([userId])
   @@index([orgId])
+  @@index([departmentId])
   @@index([role])
   @@index([isActive])
   @@map("profiles")
 }
 
 // ============================================================
-// ORGANIZATION MEMBERSHIPS
+// DEPARTMENTS
 // ============================================================
 
-model OrgMember {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  orgId     String   @map("org_id") @db.Uuid
-  profileId String   @map("profile_id") @db.Uuid
-  role      UserRole @default(VIEWER)
-  isActive  Boolean  @default(true) @map("is_active")
-  invitedBy String?  @map("invited_by") @db.Uuid
-  joinedAt  DateTime @default(now()) @map("joined_at") @db.Timestamptz
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
-
-  org     Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  profile Profile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
-
-  @@unique([orgId, profileId])
-  @@index([orgId])
-  @@index([profileId])
-  @@index([role])
-  @@map("org_members")
-}
-
-// ============================================================
-// ROLES & PERMISSIONS (fine-grained RBAC — future-ready)
-// ============================================================
-
-model Role {
+model Department {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  orgId       String?  @map("org_id") @db.Uuid
-  name        String   @db.VarChar(100)
-  displayName String   @map("display_name") @db.VarChar(200)
+  orgId       String   @map("org_id") @db.Uuid
+  parentId    String?  @map("parent_id") @db.Uuid
+  headId      String?  @map("head_id") @db.Uuid
+  name        String   @db.VarChar(150)
+  code        String?  @db.VarChar(20)
   description String?  @db.Text
-  isSystem    Boolean  @default(false) @map("is_system")
   isActive    Boolean  @default(true) @map("is_active")
   metadata    Json     @default("{}")
 
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
 
-  permissions RolePermission[]
+  org      Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  parent   Department?  @relation("DepartmentHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children Department[] @relation("DepartmentHierarchy")
+  head     Profile?     @relation("DepartmentHead", fields: [headId], references: [id], onDelete: SetNull)
+  members  Profile[]    @relation("DepartmentMembers")
+
+  @@unique([orgId, code])
+  @@index([orgId])
+  @@index([parentId])
+  @@index([headId])
+  @@index([isActive])
+  @@index([deletedAt])
+  @@map("departments")
+}
+
+// ============================================================
+// ASSET CATEGORIES
+// ============================================================
+
+model AssetCategory {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orgId         String   @map("org_id") @db.Uuid
+  name          String   @db.VarChar(150)
+  description   String?  @db.Text
+  icon          String?  @db.VarChar(50)
+  color         String?  @db.VarChar(20)
+  dynamicFields Json     @default("[]") @map("dynamic_fields")
+  isActive      Boolean  @default(true) @map("is_active")
+  sortOrder     Int      @default(0) @map("sort_order")
+
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+
+  org Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
   @@unique([orgId, name])
   @@index([orgId])
-  @@index([isSystem])
-  @@map("roles")
-}
-
-model Permission {
-  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code        String  @unique @db.VarChar(100)
-  name        String  @db.VarChar(200)
-  description String? @db.Text
-  module      String  @db.VarChar(50)
-  isSystem    Boolean @default(true) @map("is_system")
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-
-  roles RolePermission[]
-
-  @@index([module])
-  @@map("permissions")
-}
-
-model RolePermission {
-  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  roleId       String   @map("role_id") @db.Uuid
-  permissionId String   @map("permission_id") @db.Uuid
-  grantedAt    DateTime @default(now()) @map("granted_at") @db.Timestamptz
-  grantedBy    String?  @map("granted_by") @db.Uuid
-
-  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-
-  @@unique([roleId, permissionId])
-  @@map("role_permissions")
+  @@index([isActive])
+  @@index([deletedAt])
+  @@map("asset_categories")
 }
 
 // ============================================================
@@ -220,28 +203,56 @@ model RolePermission {
 // ============================================================
 
 model AuditLog {
-  id         String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  orgId      String?       @map("org_id") @db.Uuid
-  userId     String?       @map("user_id") @db.Uuid
-  action     AuditAction
-  resource   AuditResource
-  resourceId String?       @map("resource_id") @db.Uuid
-  oldValues  Json?         @map("old_values")
-  newValues  Json?         @map("new_values")
-  metadata   Json?
-  ipAddress  String?       @map("ip_address") @db.VarChar(45)
-  userAgent  String?       @map("user_agent") @db.VarChar(512)
-  requestId  String?       @map("request_id") @db.Uuid
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orgId       String?       @map("org_id") @db.Uuid
+  actorId     String?       @map("actor_id") @db.Uuid
+  targetId    String?       @map("target_id") @db.Uuid
+  action      AuditAction
+  resource    AuditResource
+  resourceId  String?       @map("resource_id") @db.Uuid
+  description String?       @db.Text
+  oldValues   Json?         @map("old_values")
+  newValues   Json?         @map("new_values")
+  ipAddress   String?       @map("ip_address") @db.VarChar(45)
+  userAgent   String?       @map("user_agent") @db.VarChar(512)
+  metadata    Json          @default("{}")
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  org     Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
-  profile Profile?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  org    Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  actor  Profile?      @relation("AuditLogActor", fields: [actorId], references: [id], onDelete: SetNull)
+  target Profile?      @relation("AuditLogTarget", fields: [targetId], references: [id], onDelete: SetNull)
 
   @@index([orgId, createdAt(sort: Desc)])
-  @@index([userId])
+  @@index([actorId])
+  @@index([targetId])
   @@index([resource, resourceId])
   @@index([action])
   @@index([createdAt(sort: Desc)])
   @@map("audit_logs")
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+
+model Notification {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  orgId     String?   @map("org_id") @db.Uuid
+  type      String    @db.VarChar(50)
+  title     String    @db.VarChar(255)
+  body      String?   @db.Text
+  href      String?   @db.VarChar(512)
+  isRead    Boolean   @default(false) @map("is_read")
+  readAt    DateTime? @map("read_at") @db.Timestamptz
+  metadata  Json      @default("{}")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([userId])
+  @@index([orgId])
+  @@index([isRead])
+  @@index([createdAt(sort: Desc)])
+  @@map("notifications")
 }

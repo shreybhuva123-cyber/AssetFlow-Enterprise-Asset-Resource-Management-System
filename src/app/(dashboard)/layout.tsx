@@ -1,4 +1,4 @@
-import { requireServerAuth } from '@/supabase/auth';
+import { requireServerAuth } from '@/lib/supabase/server';
 import { AppSidebar } from '@/components/layout/sidebar';
 import { AppHeader } from '@/components/layout/header';
 

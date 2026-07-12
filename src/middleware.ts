@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { updateSession } from '@/supabase/middleware';
+import { updateSession } from '@/lib/supabase/middleware';
 import { authConfig } from '@/config/auth.config';
 import { publicRoutes, authRoutes } from '@/config/routes.config';
 

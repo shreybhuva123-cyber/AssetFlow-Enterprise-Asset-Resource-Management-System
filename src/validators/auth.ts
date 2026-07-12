@@ -29,13 +29,13 @@ export const loginSchema = z.object({
   rememberMe: z.boolean().optional().default(false),
 });
 
+// Signup always creates EMPLOYEE — no role field, no orgName field
 export const registerSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
   confirmPassword: z.string().min(1, 'Please confirm your password'),
   firstName: z.string().trim().min(1, 'First name is required').max(100),
   lastName: z.string().trim().min(1, 'Last name is required').max(100),
-  acceptTerms: z.literal(true, { errorMap: () => ({ message: 'You must accept the terms' }) }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: 'Passwords do not match',
   path: ['confirmPassword'],

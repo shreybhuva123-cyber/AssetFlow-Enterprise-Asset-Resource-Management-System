@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getServerSession } from '@/supabase/auth';
+import { getServerSession } from '@/lib/auth/get-session';
 import { authConfig } from '@/config/auth.config';
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
