@@ -1,7 +1,7 @@
 import { requireServerAuth } from '@/lib/supabase/server';
 import { AppSidebar } from '@/components/layout/sidebar';
 import { AppHeader } from '@/components/layout/header';
-
+import { AIFloatingButton } from '@/components/shared/ai-fab';
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   await requireServerAuth();
 
@@ -21,6 +21,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </div>
         </main>
       </div>
+      <AIFloatingButton />
     </div>
   );
 }

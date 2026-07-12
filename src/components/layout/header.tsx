@@ -6,6 +6,7 @@ import { useSidebarStore } from '@/store/sidebar.store';
 import { useNotificationsStore } from '@/store/notifications.store';
 import { cn } from '@/lib/utils/cn';
 import { AppBreadcrumbs } from './breadcrumbs';
+import { GlobalSearch } from '../shared/global-search';
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -70,7 +71,8 @@ export function AppHeader() {
 
       <AppBreadcrumbs />
 
-      <div className="ml-auto flex items-center gap-1">
+      <div className="ml-auto flex items-center gap-2">
+        <GlobalSearch />
         <ThemeToggle />
         <NotificationBell />
       </div>

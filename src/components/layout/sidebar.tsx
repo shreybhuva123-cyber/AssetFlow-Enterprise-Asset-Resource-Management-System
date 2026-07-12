@@ -20,6 +20,8 @@ import {
   ArrowRightLeft,
   CalendarDays,
   ClipboardCheck,
+  LineChart,
+  Activity,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils/cn';
@@ -41,7 +43,9 @@ const NAV_ITEMS = [
   { path: '/depreciation',label: 'Depreciation',icon: TrendingDown,    permission: Permission.DEPRECIATION_READ },
   { path: '/locations',   label: 'Locations',   icon: MapPin,          permission: Permission.LOCATIONS_READ },
   { path: '/reports',     label: 'Reports',     icon: BarChart3,       permission: Permission.REPORTS_VIEW },
-  { path: '/audit',       label: 'Audit Log',   icon: Shield,          permission: Permission.AUDIT_READ },
+  { path: '/analytics',   label: 'Analytics',   icon: LineChart,       permission: Permission.REPORTS_VIEW },
+  { path: '/audit',       label: 'Audit Cycles',icon: Shield,          permission: Permission.AUDIT_READ },
+  { path: '/activity-logs',label:'Activity Logs',icon: Activity,       permission: Permission.AUDIT_READ },
   { path: '/settings',    label: 'Settings',    icon: Settings,        permission: Permission.SETTINGS_READ },
 ] as const;
 

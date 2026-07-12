@@ -35,7 +35,7 @@ export const transferService = {
       await tx.assetTimeline.create({
         data: {
           asset:     { connect: { id: input.assetId } },
-          org:       { connect: { id: orgId } },
+          orgId,
           eventType: TimelineEventType.TRANSFER_REQUESTED,
           title:     'Transfer Requested',
           description: input.reason,
@@ -59,6 +59,7 @@ export const transferService = {
       // Record approval decision
       await tx.transferApproval.create({
         data: {
+          orgId,
           transfer:  { connect: { id: transferId } },
           approver:  { connect: { id: approverId } },
           decision:  input.decision,
@@ -88,7 +89,7 @@ export const transferService = {
             allocationDate: new Date(),
             status:        AllocationStatus.ACTIVE,
             approvalStatus: 'APPROVED',
-            approvedById:  approverId,
+            approvedBy:    { connect: { id: approverId } },
             approvedAt:    new Date(),
             purpose:       `Transfer from ${transfer.fromEmployee?.displayName ?? 'previous holder'}`,
           },
@@ -109,7 +110,7 @@ export const transferService = {
         await tx.assetTimeline.create({
           data: {
             asset:     { connect: { id: transfer.assetId } },
-            org:       { connect: { id: orgId } },
+            orgId,
             eventType: TimelineEventType.TRANSFER_APPROVED,
             title:     'Transfer Approved & Completed',
             description: `Asset transferred to ${transfer.toEmployee.displayName}`,
@@ -126,7 +127,7 @@ export const transferService = {
         await tx.assetTimeline.create({
           data: {
             asset:     { connect: { id: transfer.assetId } },
-            org:       { connect: { id: orgId } },
+            orgId,
             eventType: TimelineEventType.TRANSFER_REJECTED,
             title:     'Transfer Rejected',
             description: input.comments,
